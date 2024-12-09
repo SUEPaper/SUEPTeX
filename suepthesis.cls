@@ -50,7 +50,7 @@
         单位代号 \quad \ful[3cm]{10256} \qquad \qquad
         &学 \enspace 号 \quad \ful[3cm]{}
     \par
-    \__thesis_draw_image {./images/logo.jpg}
+    \__thesis_draw_image {./images/logo.png}
     \par
 
     \vspace{10mm} 
