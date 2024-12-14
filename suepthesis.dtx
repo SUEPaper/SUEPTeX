@@ -242,6 +242,9 @@
 %    \end{macrocode}
 % \end{macro}
 %
+
+
+
 % \begin{macro}{\@@_if_academic_thesis:TF}
 % 是否为学术论文。
 %    \begin{macrocode}
@@ -347,9 +350,7 @@
 % 标签与内容之间的空白间距。
 %    \begin{macrocode}
 \cs_new:Npn \label_space: {
-  \@@_if_bachelor_thesis:T {
     \quad
-  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -465,7 +466,9 @@
     {appendix_prefix} {附录} {Appendix},
     {reference} {参考文献} {References},
     {university} {上海电力大学} {Beijing~Institute~of~Technology},
-    {publications} {攻读学位期间发表论文与研究成果清单}
+    {master_publications} {攻读硕士学位期间发表学术论文情况}
+      {Publications~During~Studies},
+    {doctor_publications} {攻读博士学位期间发表学术论文情况}
       {Publications~During~Studies},
     % TODO: Not so sure about the translation.
     {resume} {作者简介} {Author~Biography},
@@ -2234,110 +2237,7 @@
 %    \begin{macrocode}
 \NewDocumentCommand \MakeOriginality {}
   {
-    \group_begin:
-    \begin{blindPeerReview}[\l_@@_cover_hide_cover_in_peer_review_bool]
-      \int_case:nn {\g_@@_thesis_type_int}
-      {
-        {1}
-        {
-          \currentpdfbookmark{声明}{frontmatter:originality}
-          \pagestyle{suepthesis}
-          \pagenumbering{gobble}
 
-          % 原创性声明部分
-          \begin{center}
-            \vspace*{-2bp}
-            \@@_same_page:
-            \chapter*{\heiti\zihao{2}\c_@@_bachelor_label_originality_tl}
-          \end{center}~\par
-
-          % 本部分字号为小三。
-          \zihao{-3}
-          \c_@@_bachelor_label_originality_clause_tl
-
-          \vspace{17mm}
-
-          \begin{flushright}
-            \c_@@_bachelor_label_originality_author_signature_tl\par
-          \end{flushright}
-
-          \vspace{16mm}
-
-          % 使用授权声明部分
-          \begin{center}
-            \@@_same_page:
-            \chapter*{
-              \heiti\zihao{2}
-              \c_@@_bachelor_label_authorization_tl
-            }
-          \end{center}~\par
-
-          \c_@@_bachelor_label_authorization_clause_tl
-
-          \vspace*{3mm}
-
-          \begin{flushright}
-            \begin{spacing}{1.65}
-              \zihao{-3}
-              % \hspace{5mm}\raisebox{-2ex}{\includegraphics[width=30mm]{example-image}}\hspace{5mm}
-              \c_@@_bachelor_label_originality_author_signature_tl\par
-              \c_@@_bachelor_label_originality_supervisor_signature_tl\par
-            \end{spacing}
-          \end{flushright}
-
-          \newpage
-        }
-        {3} {
-          \currentpdfbookmark{Statements}{frontmatter:originality}
-          \pagestyle{suepthesis}
-          \pagenumbering{gobble}
-
-          % 原创性声明部分
-          \begin{center}
-            \vspace*{-2bp}
-            \@@_same_page:
-            \chapter*{
-              \heiti\zihao{-2}
-              \c_@@_bachelor_english_label_originality_tl
-            }
-          \end{center}~\par
-
-          % 本部分字号为小四
-          \zihao{-4}
-          \c_@@_bachelor_english_label_originality_clause_tl
-
-          \bigbreak
-
-          Student~(Signature):~\dunderline[-1pt]{1pt}{\makebox[18mm]{}}~Date:\par
-
-          \vspace{\stretch{1}}
-
-          % 使用授权声明部分
-          \begin{center}
-            \@@_same_page:
-            \chapter*{
-              \heiti\zihao{-2}
-              \c_@@_bachelor_english_label_authorization_tl
-            }
-          \end{center}~\par
-
-          \c_@@_bachelor_english_label_authorization_clause_tl
-
-          \bigbreak
-          Student~(Signature):~
-            \dunderline[-1pt]{1pt}{\makebox[18mm + 16bp]{}}~
-            \hspace{2mm}Date:\par
-          Supervisor~(Signature):~
-            \dunderline[-1pt]{1pt}{\makebox[18mm]{}}~
-            \hspace{2mm}Date:\par
-        }
-        {4} {\@@_graduate_originality:}
-        {5} {\@@_graduate_originality:}
-      }
-    % 单独成页
-    \clearpage
-    \end{blindPeerReview}
-    \group_end:
   }
 %    \end{macrocode}
 % \end{macro}
@@ -2352,25 +2252,6 @@
         \renewcommand{\baselinestretch}{1.35}
       } {
         \renewcommand{\baselinestretch}{1.56}
-      }
-
-      % 自定义目录样式
-      \cs_set:Npn \contentsname {
-        \fontsize{16pt}{\baselineskip}
-        \l_@@_unnumchapter_style_cs:n
-          \heiti
-            {\l_@@_toc_title_tl}
-        \vspace{-8pt}
-      }
-
-      \bool_if:NTF \l_@@_add_toc_to_toc_bool {
-        % 添加「目录」本身到目录中，同时自动添加书签
-        % 此处必须有`\phantomsection`，不然 hyperref 会把链接指向之前摘要的标题。
-        \phantomsection
-        \addcontentsline{toc}{chapter}{\c_@@_label_toc_en_tl}
-      } {
-        % 手动添加目录书签
-        \currentpdfbookmark{\l_@@_toc_title_tl}{ch:toc}
       }
 
       % 制作目录
@@ -2420,12 +2301,8 @@
 
     {
       \@@_same_page:
-      \bool_if:NTF \l_@@_add_abstract_to_toc_bool {
-        \chapter{\c_@@_label_abstract_tl}
-      } {
-        \currentpdfbookmark{\c_@@_label_abstract_tl}{ch:abstract}
-        \chapter*{\c_@@_label_abstract_tl}
-      }
+
+      \chapter{\c_@@_label_abstract_tl}
     }
     \vspace*{1mm}
     \par
@@ -2483,12 +2360,8 @@
 
     {
       \@@_same_page:
-      \bool_if:nTF {\l_@@_add_abstract_en_to_toc_bool} {
-        \chapter{\c_@@_label_abstract_en_tl}
-      } {
-        \currentpdfbookmark{\c_@@_label_abstract_en_tl}{ch:abstract:en}
-        \chapter*{\c_@@_label_abstract_en_tl}
-      }
+
+      \chapter{\c_@@_label_abstract_en_tl}
     }
   }
   {
@@ -2890,7 +2763,12 @@
         \l_@@_publications_minbibnames_int
       }
 
-      \chapter{\@@_get_const:N {publications}}
+
+      \@@_if_master_thesis:TF  {
+        \chapter{\c_@@_label_master_publications_tl}
+      } {
+        \chapter{\c_@@_label_doctor_publications_tl}
+      }
       #1
     \end{blindPeerReview}
   }
