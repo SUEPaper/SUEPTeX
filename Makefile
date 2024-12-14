@@ -41,7 +41,7 @@ doc: $(PACKAGE).pdf
 .PHONY: graduate
 graduate: $(CLSFILE)
 	cp suepthesis.cls $(SCAFFOLDDIR)/graduate-thesis
-	cd $(SCAFFOLDDIR)/graduate-thesis && latexmk && cd ...
+	cd $(SCAFFOLDDIR)/graduate-thesis && latexmk -C && latexmk && cd ..
 	
 .PHONY: viewdoc
 viewdoc: doc
