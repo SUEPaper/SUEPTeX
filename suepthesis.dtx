@@ -242,9 +242,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-
-
-
 % \begin{macro}{\@@_if_academic_thesis:TF}
 % 是否为学术论文。
 %    \begin{macrocode}
@@ -305,7 +302,25 @@
 % 标签文字之间的间距。
 %    \begin{macrocode}
 \cs_new:Npn \smallgap: {
-  \hspace{0.45ex}
+  \hspace{0.25ex}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\mediumgap:}
+% 标签文字之间的间距。
+%    \begin{macrocode}
+\cs_new:Npn \mediumgap: {
+  \hspace{0.50ex}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\largegap:}
+% 标签文字之间的间距。
+%    \begin{macrocode}
+\cs_new:Npn \largegap: {
+  \hspace{1.45ex}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -428,11 +443,11 @@
 %    \begin{macrocode}
 \clist_map_inline:nn
   {
-    {author} {学~位~申~请~人：} {Candidate~Name},
-    {supervisor} {指\quad 导\quad 教\quad 师~：} {Faculty~Mentor},
-    {major} {学\quad 科 \quad 专 \quad 业~：} {Major},
-    {degreeclass} {学\quad 位\quad 类\quad 别~：} {Degree~Applied},
-    {institute}{所\quad 属\quad 院\quad 系~：}{Degree~by},
+    {author} {学\mediumgap: 位\mediumgap: 申\mediumgap: 请\mediumgap: 人：} {Candidate~Name},
+    {supervisor} {指\largegap: 导\largegap: 教\largegap: 师~：} {Faculty~Mentor},
+    {major} {学\largegap: 科 \largegap: 专 \largegap: 业~：} {Major},
+    {degreeclass} {学\largegap: 位\largegap: 类\largegap: 别~：} {Degree~Applied},
+    {institute}{所\largegap: 属\largegap: 院\largegap: 系~：}{Degree~by},
     {finalizationdate} {论文定稿日期：} {Time}
   } {\@@_define_label_by_thesis_type:nnnn {graduate} #1}
 %    \end{macrocode}
@@ -568,19 +583,20 @@
     xiheiFont .tl_set:N = \l_@@_cover_xihei_font_path_tl,
     xiheiFont .default:n = {STXihei},
     %% cover entry
-    delimiter .tl_set:N = \l_@@_cover_delimiter_tl,
     labelAlign .tl_set:N = \l_@@_cover_label_align_tl,
     labelAlign .initial:n = {r},
     valueAlign .tl_set:N = \l_@@_cover_value_align_tl,
     valueAlign .initial:n = {c},
     labelMaxWidth .dim_set:N = \l_@@_cover_label_max_width_dim,
+    labelMaxWidth .initial:n = {0pt},
     valueMaxWidth .dim_set:N = \l_@@_cover_value_max_width_dim,
+    valueMaxWidth .initial:n = {0pt},
     autoWidthPadding .dim_set:N = \l_@@_cover_auto_width_padding_dim,
-    autoWidthPadding .initial:n = {0.25em},
+    autoWidthPadding .initial:n = {0em},
     autoWidth .bool_set:N = \l_@@_cover_auto_width_bool,
     autoWidth .initial:n = {true},
     underlineThickness .dim_set:N = \l_@@_cover_underline_thickness_dim,
-    underlineThickness .initial:n = {1pt},
+    underlineThickness .initial:n = {0.6pt},
     underlineOffset .dim_set:N = \l_@@_cover_underline_offset_dim,
     underlineOffset .initial:n = { -10pt },
     hideCoverInPeerReview .bool_set:N = \l_@@_cover_hide_cover_in_peer_review_bool,
@@ -1704,10 +1720,9 @@
 % 存储已经计算出来的最大宽度。
 %    \begin{macrocode}
 \cs_new:Npn \@@_render_cover_entry:nn #1#2 {
-  \makebox[\l_@@_cover_label_max_width_dim][\l_@@_cover_label_align_tl]{
-    \tl_if_blank:VTF #1 {} {#1\l_@@_cover_delimiter_tl}
+\makebox[\l_@@_cover_label_max_width_dim][\l_@@_cover_label_align_tl]{
+    #1
   }
-  \hspace{1ex}
   \@@_dunderline:nnn{\l_@@_cover_underline_offset_dim}
     {\l_@@_cover_underline_thickness_dim}{
     \makebox[\l_@@_cover_value_max_width_dim][\l_@@_cover_value_align_tl]{#2}
@@ -1893,7 +1908,7 @@
           \@@_if_master_thesis:TF {
             { 
               \heiti\zihao{-0}
-              硕\quad 士\quad 学\quad 位\quad 论\quad 文 \par
+              硕\largegap: 士\largegap: 学\largegap: 位\largegap: 论\largegap: 文 \par
             } {
               \zihao{2}
               Dissertation~for~Master’s~Degree  \par
@@ -1901,7 +1916,7 @@
           } {
             { 
               \heiti\zihao{-0}
-              博~士~学~位~论~文 \par
+              博\largegap: 士\largegap: 学\largegap: 位\largegap: 论\largegap: 文 \par
             } {
               \zihao{2}
               Dissertation~for~Doctor’s~Degree  \par
@@ -1933,18 +1948,14 @@
           \l_@@_value_title_tl \par
           \l_@@_value_title_en_tl \par
         }
-
-        {
-          \renewcommand{\baselinestretch}{2}
-  
-          \tl_if_empty:NT \l_@@_cover_delimiter_tl {
-            \tl_set:Nn \l_@@_cover_delimiter_tl {\qquad}
-          }
-          \tl_set:Nn \l_@@_cover_underline_offset_dim {-5pt}
+        \vspace*{20mm}
+        \begin{spacing}{1.8}
+          \begin{center}
+          \tl_set:Nn \l_@@_cover_underline_offset_dim {-3pt}
   
           % 如果不是自动计算宽度，且用户没有自定义宽度，
           % 则尝试提供一个默认宽度。
-          \bool_if:NF \l_@@_cover_auto_width_bool {
+          \bool_if:NT \l_@@_cover_auto_width_bool {
             \dim_compare:nNnT {\l_@@_cover_label_max_width_dim} = {0pt} {
               \dim_set:Nn \l_@@_cover_label_max_width_dim {45mm}
             }
@@ -1958,14 +1969,18 @@
               {\c_@@_graduate_label_author_tl} {\@@_secret_info:N{\l_@@_value_author_tl}},
               {\c_@@_graduate_label_supervisor_tl} {\@@_secret_info:N{\l_@@_value_supervisor_tl}},
               {\c_@@_graduate_label_major_tl} {\l_@@_value_major_tl},
+              {\quad} {\quad },
               {\c_@@_graduate_label_degreeclass_tl} {\@@_secret_info:N{\l_@@_value_degree_class_tl}},
               {\c_@@_graduate_label_institute_tl} {\l_@@_value_institute_tl},
            }
   
           \heiti\zihao{-3}
           \@@_render_cover_entry:n \l_@@_input_clist
-        }
-        \vspace*{10mm}
+        \end{center}
+      \end{spacing}
+
+      
+        \vspace*{15mm}
         {\songti\zihao{4} \l_@@_cover_date_tl}
       \end{center}
   \end{titlepage}
@@ -2021,24 +2036,21 @@
             专业学位士学位论文 \par
           }
         }
-        \vspace*{40mm}
+        \vspace*{20mm}
         {
           \heiti \zihao{2} 
           \l_@@_value_title_tl \par
           \l_@@_value_title_en_tl \par
         }
-        \vspace*{40mm}
+        \vspace*{20mm}
         {
           \renewcommand{\baselinestretch}{2}
   
-          \tl_if_empty:NT \l_@@_cover_delimiter_tl {
-            \tl_set:Nn \l_@@_cover_delimiter_tl {\qquad}
-          }
-          \tl_set:Nn \l_@@_cover_underline_offset_dim {-5pt}
+          \tl_set:Nn \l_@@_cover_underline_offset_dim {-3pt}
   
           % 如果不是自动计算宽度，且用户没有自定义宽度，
           % 则尝试提供一个默认宽度。
-          \bool_if:NF \l_@@_cover_auto_width_bool {
+          \bool_if:NT \l_@@_cover_auto_width_bool {
             \dim_compare:nNnT {\l_@@_cover_label_max_width_dim} = {0pt} {
               \dim_set:Nn \l_@@_cover_label_max_width_dim {45mm}
             }
@@ -2046,12 +2058,12 @@
               \dim_set:Nn \l_@@_cover_value_max_width_dim {60mm}
             }
           }
-  
           % 渲染信息。
           \clist_set:Nn \l_@@_input_clist {
               {\c_@@_graduate_label_author_tl} {\@@_secret_info:N{\l_@@_value_author_tl}},
               {\c_@@_graduate_label_supervisor_tl} {\@@_secret_info:N{\l_@@_value_supervisor_tl}},
               {\c_@@_graduate_label_major_tl} {\l_@@_value_major_tl},
+              {\quad} {\quad},
               {\c_@@_graduate_label_degreeclass_tl} {\@@_secret_info:N{\l_@@_value_degree_class_tl}},
               {\c_@@_graduate_label_finalizationdate_tl} {\l_@@_value_finalization_date_tl},
            }
