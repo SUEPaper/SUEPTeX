@@ -425,15 +425,25 @@
     对本文的研究做出重要贡献的个人和集体， 均已在文中以明确方式标明。
     本人完全意识到本声明的法律结果由本人承担。},
     {authorization} {上海电力大学学位论文版权使用授权书},
-    {authorization_clause} {本学位论文作者完全了解学校有关保留、 使用学位论文的规定， 
-    同意学校保留并向国家有关部门或机构送交论文的复印件和电子版， 允许论文被查阅和借阅。
-    本人授权上海电力大学可以将本学位论文的全部或部分内容编入有关数据库进行检索， 
-    可以采用影印、缩印或扫描等复制手段保存和汇编本学位论文。\\
+    {authorization_clause} {
+      本学位论文作者完全了解学校有关保留、 使用学位论文的规定， 
+      同意学校保留并向国家有关部门或机构送交论文的复印件和电子版， 允许论文被查阅和借阅。
+      本人授权上海电力大学可以将本学位论文的全部或部分内容编入有关数据库进行检索， 
+      可以采用影印、缩印或扫描等复制手段保存和汇编本学位论文。\par
+      \qquad \qquad \qquad \quad {\bfseries 保密}\boxempty: ， 在\underline{\qquad} 年解密后适用本授权书。\par
+      本学位论文属于 \par
+      \qquad \qquad \qquad \quad {\bfseries 不保密}\boxempty: 。\par
+      （请在以上方框内打“ \faCheck ”）
     },
-    {originality_author_signature}
-      {签\qquad 名：\hspace{40mm}日\hspace{2.5mm}期：\hspace{30mm}\quad},
+
+    {originality_time} {
+      日期：\hspace{20mm}年 \qquad 月 \qquad 日 \qquad
+    },
+    {originality_author_signature}{ 
+      学位论文作者签名：\hspace{24mm} \quad
+    },
     {originality_supervisor_signature}
-      {导师签名：\hspace{40mm}日\hspace{2.5mm}期：\hspace{30mm}\quad},
+      { 指导教师签名：\hspace{24mm} \quad},
   } {\@@_define_label_by_thesis_type:nnn {graduate} #1}
 %    \end{macrocode}
 % \end{variable}
@@ -964,6 +974,7 @@
 \RequirePackage{listings}
 \RequirePackage{enumitem}
 \RequirePackage{fmtcount}
+\RequirePackage{fontawesome5}
 %    \end{macrocode}
 %
 % 抑制 \pkg{hyperref} 中对 |\hskip| 的 warning 信息。
@@ -2101,12 +2112,13 @@
       % 不计算页码。
       \pagenumbering{gobble}
 
+
       % 原创性声明部分
       \begin{center}
         \@@_same_page:
         \ctexset{
           chapter = {
-            titleformat = {\heiti\zihao{-2}},
+            titleformat = {\heiti\zihao{3}},
           }
         }
         \currentpdfbookmark{\c_@@_graduate_label_originality_tl}{frontmatter:originality}
@@ -2115,23 +2127,39 @@
         }
       \end{center}
 
+      \vspace{\baselineskip}
+
       % 本部分字号为三号。
-      \zihao{3}
-      \qquad\c_@@_graduate_label_originality_clause_tl
-      \vspace{3\baselineskip}
+      {
+        \songti
+        \zihao{-4}
+        \linespread{2.4}
+
+        \qquad\c_@@_graduate_label_originality_clause_tl
+      }
+
+      \vspace{4\baselineskip}
 
       \begin{flushright}
         \c_@@_graduate_label_originality_author_signature_tl\par
+        \vspace{\baselineskip}
+        \c_@@_graduate_label_originality_time_tl\par
       \end{flushright}
 
-      \vspace{3\baselineskip}
+    \end{titlepage}
 
+    \begin{titlepage}
+
+      % 不计算页码。
+      \pagenumbering{gobble}
       % 使用授权声明部分。
+
+      \linespread{1.8}
       \begin{center}
         \@@_same_page:
         \ctexset{
           chapter = {
-            titleformat = {\heiti\zihao{-2}},
+            titleformat = {\heiti\zihao{3}},
           }
         }
         \currentpdfbookmark{\c_@@_graduate_label_authorization_tl}{frontmatter:originality1}
@@ -2140,19 +2168,24 @@
         }
       \end{center}
 
-      \qquad\c_@@_graduate_label_authorization_clause_tl
+      {
+        \songti
+        \zihao{-4}
+        \qquad\c_@@_graduate_label_authorization_clause_tl \par
+      }
+      
 
-      \vspace*{15mm}
+      \vspace{4\baselineskip}
 
-      \begin{flushright}
-        \begin{spacing}{1.65}
-          \zihao{3}
-          % \hspace{5mm}\raisebox{-2ex}{\includegraphics[width=30mm]{example-image}}\hspace{5mm}
-          \c_@@_graduate_label_originality_author_signature_tl\par
-          \vspace{1\baselineskip}
-          \c_@@_graduate_label_originality_supervisor_signature_tl\par
-        \end{spacing}
-      \end{flushright}
+
+      \qquad \c_@@_graduate_label_originality_author_signature_tl 
+      \hspace{20mm}
+      \c_@@_graduate_label_originality_supervisor_signature_tl \par
+      \vspace{\baselineskip}
+      \c_@@_graduate_label_originality_time_tl
+      \hspace{15mm}
+      \c_@@_graduate_label_originality_time_tl \par
+
     \end{titlepage}
     \cleardoublepage
   }
@@ -2249,7 +2282,11 @@
 %    \begin{macrocode}
 \NewDocumentCommand \MakeOriginality {}
   {
+    \@@_if_graduate:TF {
+      \@@_graduate_originality:
+    } {
 
+    }
   }
 %    \end{macrocode}
 % \end{macro}
