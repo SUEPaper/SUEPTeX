@@ -1,0 +1,193 @@
+%%
+% The SUEPThesis Template for Graduate Thesis
+%
+% Copyright 2020-2024 Haiwen Zhang
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Feng Kaiyu.
+%
+% Compile with: xelatex -> biber -> xelatex -> xelatex
+
+% !TeX program = xelatex
+% !BIB program = biber
+
+% 硕士论文模板 type=master
+% 博士论文模板 type=doctor
+% 开启盲审格式 blindPeerReview=true (如：[type=master,blindPeerReview=true])
+% 开启双面打印模式 twoside=true (如：[type=master,twoside=true]）
+%     在双面打印模式下，需要放在奇数页的页面后会自动插入一个空白页，以方便直接在打印机上“双面打印”。
+%
+% 在 Linux 和 macOS 系统下，由于版权问题，中文字体和 Windows 系统下的字体不同。
+% 如果想要获得与 Word 文档相同的效果，你有两个选择：
+% 1. 使用 Windows 系统编译最终的论文。
+% 2. 自己手动安装中易字库并添加选项：`\documentclass[...,ctex={fontset=windows}]{bithesis}`。
+%
+
+\documentclass[type=master,degreeType=academic]{suepthesis}
+% 选项
+%   type=[doctor|master|bachelor],     % 可选（默认：master），论文类型
+%   degree=[academic|professional],    % 可选（默认：academic），学位类型
+%   blindPeerReview,                   % 可选（默认：关闭），盲审模式
+%   twoside,                           % 可选（默认：true），双页或单页边距模式。在双面打印模式下，需要放在奇数页的页面后会自动插入一个空白页，以方便直接在打印机上“双面打印”。
+
+
+% 此处仅列出常用的配置。全部配置用法请见「bithesis.pdf」手册。
+\SUEPSetup{
+  cover = {
+    %% 使用以下参数来自定义封面日期
+    date = 2024年10月,
+    autoWidthPadding = 0.25em,
+  },
+  info = {
+    % 想要删除某项封面信息，直接删除该项即可。
+    % 想要让某项封面信息留空（但是保留下划线），请传入空白符组成的字符串，如"{~}"。
+    % 如需要换行，则用 “\\” 符号分割。
+    classification = TQ028.1,
+    title = 形状记忆聚氨酯的合成及其在织物中的应用,
+    titleEn = Synthesis and Application on textile of the Shape Memory Polyurethane,
+    author = 张三,
+    studentId = 22040933,
+    % 如果想要手动控制盲审模式下的隐藏信息，可以使用宏 \SecretInfo{}。使用方式有两种，如：
+    % major = \SecretInfo{材料科学与工程} 可以得到 ******* （用等量的替换符号替代）
+    % major = \SecretInfo{材料科学与工程}[ABCDEF] 可以得到 ABCDEF （用你自定义的内容替代）
+    major = 大数据科学,
+    institute = 数理学院,
+    degree = 工学硕士,
+    finalizationDate = 2022年6月1日,
+    supervisor = 李四教授,
+    keywords = {形状记忆；聚氨酯；织物；合成；应用\textcolor{blue}{（硕士一般选3～6个单词或专业术语，博士一般选3～8个单词或专业术语，且中英文关键词必须对应。）}——请在“main.tex”开头设置},
+    keywordsEn = shape memory properties; polyurethane; textile; synthesis; application,
+    % 必要时置于封面右上角，并按照国家规定进行标记。
+    % classifiedLevel = 密级\BigStar 保密期限, 不设置则为默认公开
+    % classifiedLevel = 公开,
+  },
+  % 在目录页中不显示摘要和主要符号对照表的标题。
+  TOC = {
+    abstract = false,
+    abstractEn = false,
+    symbols = false,
+  },
+  style = {
+    pageVerticalAlign = top,
+    % 开启 Windows 平台下的中易宋体伪粗体。
+    % windowsSimSunFakeBold = true,
+    % 开启该选项后，将用 Times New Roman 的开源字体 TeX Gyre Termes 作为正文字体。
+    % 这个选项适用于以下情况：
+    % 1. 不想在系统中安装 Times New Roman。
+    % 2. 在 Linux/macOS 下遇到 `\textsc` 无法正常显示的问题。
+    % betterTimesNewRoman = true,
+  },
+  publications = {
+    % 以下两个选项将影响「攻读学位期间发表论文与研究成果清单」中名称列表的省略阈值。
+    % 一般来说，如果你在全部文献中最低排在第四位，建议你将两个值都设置为大于等于 4 的值。
+    % 更详细的说明请见手册。
+    maxbibnames = 10,
+    minbibnames = 10,
+    % 「攻读学位期间发表论文与研究成果清单」默认按照发表时间排序，
+    % 可以通过此选项关闭。关闭后将按照引用顺序排序。
+    % sorting = false
+  },
+  % 采用章节标题级别的附录格式
+  appendices / chapterLevel = true,
+  const = {
+    % 由于现存的 Word 模板、旧有 LaTeX 模板与《北京理工大学研究生学位论文撰写规范》的规定不一致，
+    % 论文封面的某些字段内容需要用户根据自己的情况进行手动调整。
+    % 目前给出的默认值是按照 2018 年发布的《北京理工大学研究生学位论文撰写规范》中的要求进行设置的。
+    % 比如注释掉的这一行：将会修改封面中的「申请学位级别」为「申请学位」。
+    % info / degree = {申\quad{}请\quad{}学\quad{}位},
+    % info / major = {学\quad{}科\hspace{5pt}/\hspace{5pt}类\quad{}别}
+  },
+  misc = {
+    % 关闭后，链接会用多种颜色表示，便于检查。
+    % 无论是否开启，都不会影响打印效果。
+    hideLinks = true,
+  }
+}
+
+% 大部分关于参考文献样式的修改，都可以通过此处的选项进行配置。
+% 详情请搜索「biblatex-gb7714-2015 文档」进行阅读。
+\usepackage[
+  defernumbers=true,
+  backend=biber,
+  style=gb7714-2015,
+  gbalign=gb7714-2015,
+  gbnamefmt=lowercase,
+  gbpub=false,
+  gbannote=true,
+  gbpunctin=false,
+  doi=false,
+  url=false,
+  eprint=false,
+  isbn=false,
+]{biblatex}
+
+% 添加参考文献
+\addbibresource{reference/main.bib}
+% 攻读学位期间发表论文与研究成果清单，详细使用方法见 `chapters/pub.tex`。
+\addbibresource{reference/pub.bib}
+
+
+\usepackage{graphicx}
+
+\begin{document}
+
+% 封面绘制
+\MakeCover
+
+% 论文原创性声明和使用授权
+\MakeOriginality
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 前置部分
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+% 摘要
+\input{./chapters/abstract.tex}
+
+% 制作目录
+\MakeTOC
+
+% 插图目录
+\listoffigures
+% 表格目录
+\listoftables
+
+% 主要符号对照表
+\input{./misc/0_symbols.tex}
+
+\mainmatter
+
+% 请根据论文内容，按照顺序添加章节。
+\input{./chapters/chapter1.tex}
+\input{./chapters/chapter2.tex}
+
+\backmatter
+
+% 结论
+\input{./misc/1_conclusion.tex}
+% 参考文献
+\input{./misc/2_reference.tex}
+
+% 附录
+\input{./misc/3_appendices.tex}
+
+% 个人成果
+\input{./misc/4_pub.tex}
+
+% 致谢
+\input{./misc/5_acknowledgements.tex}
+% 个人简介（仅博士生需要此项）
+\input{./misc/6_resume.tex}
+
+% 加入目录
+\end{document}
