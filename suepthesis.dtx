@@ -575,7 +575,6 @@
   twoside .bool_gset:N = \g_@@_twoside_bool,
   twoside .initial:n = true,
   blindPeerReview .bool_gset:N = \g_@@_blind_mode_bool,
-  twoside .initial:n = false,
   ctex .tl_set:N = \l_@@_options_to_ctex_tl,
   quirks .bool_gset:N = \g_@@_quirks_mode_bool,
   % xeCJK
@@ -1308,17 +1307,19 @@
 %    \begin{macrocode}
 \fancypagestyle{suepthesis}{
   \fancyhf{}
-  \fancyhead[CO]{
+  \fancyhead [EC] {
     \songti
     \zihao{5}
-    \leftmark
+   % \leftmark
+
+   论文
     }
 
-  \fancyhead[CE]
+  \fancyhead[OC]
   {
     \songti
     \zihao{5}
-    上海电力大学
+    \leftmark
     }
   \fancyfoot[C]{\songti\zihao{5} \thepage}
   % 页眉分割线稍微粗一些
@@ -1448,6 +1449,7 @@
   \ctexset{
     chapter = {
       numbering = false,
+      pagestyle = suepthesis,
     }
   }
   \linespread{1.53}\selectfont
@@ -2104,9 +2106,9 @@
 \cs_new:Npn \@@_graduate_originality:
   {
     % 取消页眉页脚。
-    \ctexset {
+   \ctexset {
       chapter / pagestyle = plain,
-    }
+   }
 
     \begin{titlepage}
       % 不计算页码。
@@ -2147,7 +2149,7 @@
       \end{flushright}
 
     \end{titlepage}
-
+    \cleardoublepage
     \begin{titlepage}
 
       % 不计算页码。
@@ -2237,9 +2239,9 @@
     \clearpage
     \bool_if:NT \g_@@_twoside_bool
       {
-        \int_if_odd:nF \c@page
+       \int_if_odd:nF \c@page
           { \hbox:n { } \thispagestyle { empty } \newpage }
-      }
+    }
   }
 %    \end{macrocode}
 % \end{macro}
