@@ -1,5 +1,76 @@
 \ProvidesExplClass{suepthesis}{2023/04/01}{SUEP Thesis Class}{Author Name}
 
+\RequirePackage{l3keys2e}
+
+% Define class options
+\keys_define:nn { suep }
+  {
+    degree .choice:,
+    degree / master .code:n = { \tl_gset:Nn \g__suep_degree_tl { master } },
+    degree / doctor .code:n = { \tl_gset:Nn \g__suep_degree_tl { doctor } },
+    degree .initial:n = master,
+
+    degreetype .choice:,
+    degreetype / academic .code:n = { \tl_gset:Nn \g__suep_degreetype_tl { academic } },
+    degreetype / professional .code:n = { \tl_gset:Nn \g__suep_degreetype_tl { professional } },
+    degreetype .initial:n = academic,
+  }
+\ProcessKeysOptions { suep }
+
+\tl_new:N \l__suep_thesis_type_cn_tl
+\tl_new:N \l__suep_thesis_type_en_tl
+\tl_new:N \l__suep_header_even_tl
+\tl_new:N \l__suep_major_label_tl
+
+\str_case:Vn \g__suep_degree_tl
+  {
+    { master }
+    {
+      \str_case:Vn \g__suep_degreetype_tl
+        {
+          { academic }
+          {
+            \tl_set:Nn \l__suep_thesis_type_cn_tl { 硕士学位论文 }
+            \tl_set:Nn \l__suep_thesis_type_en_tl { Dissertation~for~Master's~Degree }
+            \tl_set:Nn \l__suep_header_even_tl { 上海电力大学硕士学位论文 }
+            \tl_set:Nn \l__suep_major_label_tl { 学 \enspace 科 \enspace 专 \enspace 业 :~ }
+          }
+          { professional }
+          {
+            \tl_set:Nn \l__suep_thesis_type_cn_tl { 专业学位硕士学位论文 }
+            \tl_set:Nn \l__suep_thesis_type_en_tl { MASTER~THESIS~FOR~PROFESSIONAL~DEGREE }
+            \tl_set:Nn \l__suep_header_even_tl { 上海电力大学专业学位硕士学位论文 }
+            \tl_set:Nn \l__suep_major_label_tl { 专 \enspace 业 \enspace 名 \enspace 称 :~ }
+          }
+        }
+    }
+    { doctor }
+    {
+      \str_case:Vn \g__suep_degreetype_tl
+        {
+          { academic }
+          {
+            \tl_set:Nn \l__suep_thesis_type_cn_tl { 博士学位论文 }
+            \tl_set:Nn \l__suep_thesis_type_en_tl { Dissertation~for~Doctor's~Degree }
+            \tl_set:Nn \l__suep_header_even_tl { 上海电力大学博士学位论文 }
+            \tl_set:Nn \l__suep_major_label_tl { 学 \enspace 科 \enspace 专 \enspace 业 :~ }
+          }
+          { professional }
+          {
+            \tl_set:Nn \l__suep_thesis_type_cn_tl { 专业学位博士学位论文 }
+            \tl_set:Nn \l__suep_thesis_type_en_tl { DOCTOR~THESIS~FOR~PROFESSIONAL~DEGREE }
+            \tl_set:Nn \l__suep_header_even_tl { 上海电力大学专业学位博士学位论文 }
+            \tl_set:Nn \l__suep_major_label_tl { 专 \enspace 业 \enspace 名 \enspace 称 :~ }
+          }
+        }
+    }
+  }
+
+\def\suep@type{\l__suep_thesis_type_cn_tl}
+\def\suep@type@en{\l__suep_thesis_type_en_tl}
+\def\suep@header@even{\l__suep_header_even_tl}
+\def\suep@major@label{\l__suep_major_label_tl}
+
 % Load base article class
 \LoadClass[11pt,a4paper,twoside]{article}
 
@@ -16,7 +87,7 @@
 ]{geometry}
 
 
-\RequirePackage{expl3,l3keys2e}
+\RequirePackage{expl3}
 \RequirePackage{xparse}
 \RequirePackage{xeCJK}
 \RequirePackage{fontspec}
@@ -60,7 +131,7 @@
   % Odd page header: Chapter title (needs setup via marks, here we use leftmark)
   \fancyhead[CO]{\wuhao\songti\leftmark}
   % Even page header:
-  \fancyhead[CE]{\wuhao\songti 上海电力大学硕士/博士学位论文}
+  \fancyhead[CE]{\wuhao\songti \suep@header@even}
   
   % Footers - Page number in Center
   \fancyfoot[C]{\wuhao\selectfont\thepage}
@@ -125,7 +196,6 @@
 \def\suep@major{}
 \def\suep@degree{}
 \def\suep@school{}
-\def\suep@type{}
 
 \newcommand{\ctitle}[1]{\def\suep@c_title{#1}}
 \newcommand{\etitle}[1]{\def\suep@e_title{#1}}
@@ -134,7 +204,8 @@
 \newcommand{\cmajor}[1]{\def\suep@major{#1}}
 \newcommand{\cdegree}[1]{\def\suep@degree{#1}}
 \newcommand{\cschool}[1]{\def\suep@school{#1}}
-\newcommand{\ctype}[1]{\def\suep@type{#1}} % 硕（博）士学位论文
+\newcommand{\ctype}[1]{\def\suep@type{#1}} % 覆盖默认类型
+\newcommand{\etype}[1]{\def\suep@type@en{#1}} % 覆盖默认英文类型
 
 \NewDocumentCommand \MakeTitle {} {
   \begin{titlepage}
@@ -166,12 +237,16 @@
     {\centering\sffamily\bfseries\yihao \suep@type\par}
     
     \vspace{5mm} 
-    % English Title: Times New Roman, 二号 (22pt), 加黑, 居中 (From Shape Annotations)
-    {\centering\bfseries\erhao \suep@e_title\par}
+    % English Thesis Type: Times New Roman, 二号 (22pt), 加黑, 居中
+    {\centering\bfseries\erhao \suep@type@en\par}
 
     \vspace{15mm} 
     % Chinese Title: 黑体, 二号, 居中
     {\centering\sffamily\bfseries\erhao \suep@c_title\par}
+    
+    \vspace{5mm} 
+    % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
+    {\centering\bfseries\erhao \suep@e_title\par}
     
     \vspace{20mm} 
     % Personal info block.
@@ -182,7 +257,7 @@
       \begin{tabular}{cl}
         \textbf{学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~} & \ful[7cm]{\kaiti \suep@author} \\
         \textbf{指 \enspace 导 \enspace 教 \enspace 师 :~} & \ful[7cm]{\kaiti \suep@supervisor} \\
-        \textbf{学 \enspace 科 \enspace 专 \enspace 业 :~} & \ful[7cm]{\kaiti \suep@major} \\
+        \textbf{\suep@major@label} & \ful[7cm]{\kaiti \suep@major} \\
         \textbf{学 \enspace 位 \enspace 类 \enspace 别 :~} & \ful[7cm]{\kaiti \suep@degree} \\
         \textbf{所 \enspace 属 \enspace 院 \enspace 系 :~} & \ful[7cm]{\kaiti \suep@school}
       \end{tabular}
