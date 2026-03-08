@@ -5,6 +5,8 @@
 !*.bat
 !*.py
 !auth.pdf
-!./images/*
-!./chapters/*
+!./images/
+!./images/**
+!./chapters/
+!./chapters/**
 !.gitignore
