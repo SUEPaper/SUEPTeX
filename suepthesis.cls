@@ -90,6 +90,7 @@
 \RequirePackage{expl3}
 \RequirePackage{xparse}
 \RequirePackage{xeCJK}
+\xeCJKsetup{AutoFakeBold=true}
 \RequirePackage{fontspec}
 \RequirePackage{float}
 \RequirePackage{graphicx}
