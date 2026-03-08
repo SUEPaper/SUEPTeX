@@ -79,11 +79,11 @@
 % header and footer separation: 2.0cm from the edges
 % NOTE: geometry includes the header and footer in the body size by default unless specified. In Word, the margin is the distance to the text body, and header/footer are within.
 \RequirePackage[a4paper,
-  top=3.0cm, bottom=2.5cm,
-  left=2.6cm, right=2.6cm,
+  top=3.5cm, bottom=2.5cm,
+  left=2.5cm, right=2.5cm,
   headheight=1.0cm,
-  headsep=1.0cm, % Make sure text starts at ~3.0cm. 2.0cm padding + 1.0cm sep = 3.0cm
-  footskip=0.5cm % 2.5cm padding - 2.0cm footer = 0.5cm
+  headsep=0cm, % Make sure text starts at ~3.5cm. headheight at 1.0cm means header starts at 2.5cm
+  footskip=0.5cm % 2.5cm margin - 2.0cm footer = 0.5cm
 ]{geometry}
 
 
@@ -329,25 +329,7 @@
 
     \vspace{30mm}
     % Title (上海电力大学 硕士学位论文)
-    {\centering\bfseries\erhao 上海电力大学 \\ \tl_use:N \l__suep_thesis_type_cn_tl \par}
-    
-    \vspace{5mm}
-    % Thesis Type (English) for Inner Page
-    \str_case:Vn \g__suep_degree_tl
-    {
-      { doctor }
-      { {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par} }
-      { master }
-      {
-        \str_case:Vn \g__suep_degreetype_tl
-        {
-          { professional }
-          {
-            {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par}
-          }
-        }
-      }
-    }
+    {\centering\bfseries\erhao 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
 
     \vspace{15mm} 
     % Chinese Title
