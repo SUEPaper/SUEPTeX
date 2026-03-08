@@ -81,9 +81,9 @@
 \RequirePackage[a4paper,
   top=3.5cm, bottom=2.5cm,
   left=2.5cm, right=2.5cm,
-  headheight=1.0cm,
-  headsep=0cm, % Make sure text starts at ~3.5cm. headheight at 1.0cm means header starts at 2.5cm
-  footskip=0.5cm % 2.5cm margin - 2.0cm footer = 0.5cm
+  headheight=0.5cm,
+  headsep=1.0cm, % Correct gap: 3.5cm (top) - 2.5cm (header position) = 1.0cm
+  footskip=0.5cm
 ]{geometry}
 
 
@@ -148,16 +148,20 @@
 % -------------------------
 \fancypagestyle{suep_header}{
   \fancyhf{}
-  % Odd page header: Thesis Title (for front matter) or Chapter title (for main matter)
-  % We use \thesectionmark or similar if not in chapter, but here usually \leftmark or \rightmark
-  \fancyhead[CO]{\wuhao\songti\leftmark}
-  % Even page header: University + Thesis Type
-  \fancyhead[CE]{\wuhao\songti \tl_use:N \l__suep_header_even_tl}
+  % Header font: Wuhao Songti, Centered
+  \fancyhead[C]{\wuhao\songti
+    \ifodd\value{page}
+      \leftmark % Odd page: Chapter Title or Section Title
+    \else
+      上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl % Even page: University + Type
+    \fi
+  }
   
   % Footers - Page number in Center
+  % Font: Wuhao Times New Roman
   \fancyfoot[C]{\wuhao\selectfont\thepage}
   
-  % The double line under header
+  % The double line under header: 線組 1 磅, 線長與頁面齊寬
   \renewcommand{\headrulewidth}{1pt}
   \renewcommand{\headrule}{%
     \hrule width\headwidth height\headrulewidth \vskip 1pt%
@@ -329,7 +333,7 @@
 
     \vspace{30mm}
     % Title (上海电力大学 硕士学位论文)
-    {\centering\bfseries\erhao 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
+    {\centering\bfseries\xiaoyi 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
 
     \vspace{15mm} 
     % Chinese Title
@@ -389,16 +393,16 @@
   \markboth{\tl_use:N \g__suep_c_title_tl}{\tl_use:N \g__suep_c_title_tl}
   
   \begin{center}
-    {\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
-    \vspace{2\baselineskip}
+    {\sffamily\bfseries\sanhao \tl_use:N \g__suep_c_title_tl \par}
+    \vspace{1\baselineskip}
     {\sffamily\bfseries\sanhao 摘 \quad 要 \par}
   \end{center}
-  \par\vspace{1\baselineskip}
+  \vspace{1\baselineskip}
   \sihao\songti
 }{\clearpage}
 
 \newcommand{\cnkeywords}[1]{
-  \par\vspace{2\baselineskip}\noindent
+  \par\vspace{1\baselineskip}\noindent
   {\sffamily\bfseries\sihao 关键词：} % Bold size 4 Heiti
   {\sihao\songti #1}
 }
@@ -406,19 +410,22 @@
 \newenvironment{enabstract}{
   \clearpage
   \markboth{\tl_use:N \g__suep_e_title_tl}{\tl_use:N \g__suep_e_title_tl}
+  
   \begin{center}
-    {\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
-    \vspace{2\baselineskip}
+    \vspace*{3\baselineskip} % 段前空3行
+    {\bfseries\sanhao \MakeUppercase{\tl_use:N \g__suep_e_title_tl} \par}
+    \vspace{3\baselineskip} % 题目下空三行
     {\bfseries\sanhao ABSTRACT \par}
   \end{center}
-  \par\vspace{2\baselineskip}
+  \vspace{2\baselineskip} % 下空二行打印正文
   \sihao % Default Times New Roman size 4
+  \setlength{\parindent}{4em} % 留四个字符空格 (approx 4em in TNR)
 }{\clearpage}
 
 \newcommand{\enkeywords}[1]{
-  \par\vspace{2\baselineskip}\noindent
+  \par\vspace{2\baselineskip}\noindent % 下空二行
   {\bfseries\sihao KEY WORDS:~}
-  {\sihao #1}
+  {\sihao \lowercase{#1}} % 关键词小写
 }
 
 % TOC formatting
