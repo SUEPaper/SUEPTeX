@@ -98,12 +98,14 @@
 \RequirePackage{titlesec}
 \RequirePackage{titletoc}
 \RequirePackage{setspace}
+\RequirePackage{booktabs}
+\RequirePackage[font=small, labelsep=quad]{caption}
+\RequirePackage{bicaption}
 
 % -------------------------
 % 1. Font Definitions
 % -------------------------
 % The ctex package under Windows automatically sets Times New Roman for English and SimSun/SimHei for Chinese.
-% We just need to ensure \kaiti is mapped to the built-in \kaishu
 \newcommand{\kaiti}{\kaishu}
 
 % Predefined Chinese standard font sizes
@@ -123,12 +125,28 @@
 % Line Spacing (1.25 倍行距)
 \setstretch{1.25}
 
+% Setup captions for bilingual if doctor
+\DeclareCaptionFont{wuhaosong}{\wuhao\songti}
+\captionsetup[figure]{font=wuhaosong, labelsep=quad}
+\captionsetup[table]{font=wuhaosong, labelsep=quad}
+\captionsetup[equation]{font=wuhaosong, labelsep=quad}
+
+% If doctor degree, setup bicaption
+\str_case:Vn \g__suep_degree_tl
+{
+  { doctor }
+  {
+    \captionsetup[bi-first]{name=图, font=wuhaosong, labelsep=quad}
+    \captionsetup[bi-second]{name=Fig., font=wuhaosong, labelsep=quad} % Actually should be Times New Roman size 5. The base font for English is already set to Times New Roman in xeCJK/ctex
+  }
+}
+
 % -------------------------
 % 2. Headers and Footers
 % -------------------------
 \fancypagestyle{suep_header}{
   \fancyhf{}
-  % Odd page header: Chapter title (needs setup via marks, here we use leftmark)
+  % Odd page header: Chapter title (needs setup via marks)
   \fancyhead[CO]{\wuhao\songti\leftmark}
   % Even page header:
   \fancyhead[CE]{\wuhao\songti \suep@header@even}
@@ -222,44 +240,38 @@
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\textwidth}
-      \xiaosi 密级别 \ful[3.5cm]{} \\
-      \xiaosi 学~~号 \ful[3.5cm]{}
+      \xiaosi 密\quad 级 \ful[3.5cm]{} \\
+      \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}
 
     \vspace{20mm}
-    % Logo
-    \begin{center}
-      \includegraphics[height=1.5cm]{./images/logo.png}
-    \end{center}
-  
-    \vspace{10mm} 
-    % Thesis Type (硕（博）士学位论文)
-    {\centering\sffamily\bfseries\yihao \suep@type\par}
+    % Thesis Type (硕（博）士学位论文) - 初号 / 小初 Black
+    {\centering\sffamily\bfseries\xiaochu \suep@type\par}
     
-    \vspace{5mm} 
+    \vspace{8mm} 
     % English Thesis Type: Times New Roman, 二号 (22pt), 加黑, 居中
     {\centering\bfseries\erhao \suep@type@en\par}
 
-    \vspace{15mm} 
+    \vspace{20mm} 
     % Chinese Title: 黑体, 二号, 居中
     {\centering\sffamily\bfseries\erhao \suep@c_title\par}
     
-    \vspace{5mm} 
+    \vspace{8mm} 
     % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
     {\centering\bfseries\erhao \suep@e_title\par}
     
-    \vspace{20mm} 
+    \vspace{30mm} 
     % Personal info block.
-    % 填写在下划线上的内容必须是 楷体 (Kaiti). 标签本身是 宋体, 三号 (16pt).
+    % 填写在下划线上的内容必须是 楷体 (Kaiti). 标签本身是 宋体, 三号 (16pt), 四号字号
     \begin{center}
-      \sanhao
-      \def\arraystretch{1.5}
+      \sihao\sffamily\bfseries
+      \def\arraystretch{1.8}
       \begin{tabular}{cl}
-        \textbf{学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~} & \ful[7cm]{\kaiti \suep@author} \\
-        \textbf{指 \enspace 导 \enspace 教 \enspace 师 :~} & \ful[7cm]{\kaiti \suep@supervisor} \\
-        \textbf{\suep@major@label} & \ful[7cm]{\kaiti \suep@major} \\
-        \textbf{学 \enspace 位 \enspace 类 \enspace 别 :~} & \ful[7cm]{\kaiti \suep@degree} \\
-        \textbf{所 \enspace 属 \enspace 院 \enspace 系 :~} & \ful[7cm]{\kaiti \suep@school}
+        学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \suep@author} \\
+        指 \enspace 导 \enspace 教 \enspace 师 :~ & \ful[7cm]{\kaiti \suep@supervisor} \\
+        \suep@major@label & \ful[7cm]{\kaiti \suep@major} \\
+        学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \suep@degree} \\
+        所 \enspace 属 \enspace 院 \enspace 系 :~ & \ful[7cm]{\kaiti \suep@school}
       \end{tabular}
     \end{center}
   \end{titlepage}
@@ -273,16 +285,17 @@
   \thispagestyle{empty} % Or roman numerals? For now using roman page numbers
   \begin{center}
     {\sffamily\bfseries\sanhao \suep@c_title \par} % Thesis title in center
+    \vspace{1\baselineskip}
     {\sffamily\bfseries\sanhao 摘 \quad 要 \par}      % "摘 要" below, with space in between
   \end{center}
-  \par\vspace{1em}
+  \par\vspace{1\baselineskip}
   % Text configuration
   \sihao\songti % Size 4 Songti
 }{\clearpage}
 
 \newcommand{\cnkeywords}[1]{
-  \par\vspace{\baselineskip}\noindent
-  {\sffamily\bfseries\sihao 关键词 : } % Bold size 4 Heiti
+  \par\vspace{2\baselineskip}\noindent
+  {\sffamily\bfseries\sihao 关键词：} % Bold size 4 Heiti
   {\sihao\songti #1}
 }
 
@@ -290,17 +303,24 @@
   \clearpage
   \begin{center}
     {\bfseries\erhao \suep@e_title \par}
+    \vspace{2\baselineskip}
     {\bfseries\sanhao ABSTRACT \par}
   \end{center}
-  \par\vspace{1em}
+  \par\vspace{2\baselineskip}
   % Text configuration
   \sihao
 }{\clearpage}
 
 \newcommand{\enkeywords}[1]{
-  \par\vspace{\baselineskip}\noindent
-  {\bfseries\sihao KEY WORDS : }
-  {\sihao \lowercase{#1}}
+  \par\vspace{2\baselineskip}\noindent
+  {\bfseries\sihao KEY~WORDS:~}
+  {\sihao #1}
 }
+
+% TOC formatting
+\renewcommand{\contentsname}{\centerline{\sffamily\bfseries\sanhao 目\quad 录}}
+\titlecontents{section}[0em]{\songti\xiaosi}{\thecontentslabel\quad}{}{\titlerule*[0.5pc]{.}\contentspage}
+\titlecontents{subsection}[2em]{\songti\xiaosi}{\thecontentslabel\quad}{}{\titlerule*[0.5pc]{.}\contentspage}
+\titlecontents{subsubsection}[4em]{\songti\xiaosi}{\thecontentslabel\quad}{}{\titlerule*[0.5pc]{.}\contentspage}
 
 % End of suepthesis class
