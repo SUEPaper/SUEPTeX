@@ -207,30 +207,28 @@
 }
 
 % Define variables to store meta info
-\def\suep@c_title{}
-\def\suep@e_title{}
-\def\suep@author{}
-\def\suep@supervisor{}
-\def\suep@major{}
-\def\suep@degree{}
-\def\suep@school{}
+\tl_new:N \g__suep_c_title_tl
+\tl_new:N \g__suep_e_title_tl
+\tl_new:N \g__suep_author_tl
+\tl_new:N \g__suep_supervisor_tl
+\tl_new:N \g__suep_major_tl
+\tl_new:N \g__suep_degree_type_tl
+\tl_new:N \g__suep_school_tl
 
-\newcommand{\ctitle}[1]{\def\suep@c_title{#1}}
-\newcommand{\etitle}[1]{\def\suep@e_title{#1}}
-\newcommand{\cauthor}[1]{\def\suep@author{#1}}
-\newcommand{\csupervisor}[1]{\def\suep@supervisor{#1}}
-\newcommand{\cmajor}[1]{\def\suep@major{#1}}
-\newcommand{\cdegree}[1]{\def\suep@degree{#1}}
-\newcommand{\cschool}[1]{\def\suep@school{#1}}
-\newcommand{\ctype}[1]{\def\suep@type{#1}} % 覆盖默认类型
-\newcommand{\etype}[1]{\def\suep@type@en{#1}} % 覆盖默认英文类型
+\newcommand{\ctitle}[1]{\tl_gset:Nn \g__suep_c_title_tl {#1}}
+\newcommand{\etitle}[1]{\tl_gset:Nn \g__suep_e_title_tl {#1}}
+\newcommand{\cauthor}[1]{\tl_gset:Nn \g__suep_author_tl {#1}}
+\newcommand{\csupervisor}[1]{\tl_gset:Nn \g__suep_supervisor_tl {#1}}
+\newcommand{\cmajor}[1]{\tl_gset:Nn \g__suep_major_tl {#1}}
+\newcommand{\cdegree}[1]{\tl_gset:Nn \g__suep_degree_type_tl {#1}}
+\newcommand{\cschool}[1]{\tl_gset:Nn \g__suep_school_tl {#1}}
+\newcommand{\ctype}[1]{\tl_set:Nn \l__suep_thesis_type_cn_tl {#1}}
+\newcommand{\etype}[1]{\tl_set:Nn \l__suep_thesis_type_en_tl {#1}}
 
 \NewDocumentCommand \MakeTitle {} {
   \begin{titlepage}
-    % Must be single-sided layout, no headers/footers
     \thispagestyle{empty}
-    % Add padding at top
-    \vspace*{10mm}
+    \vspace*{-50pt}
     
     % Classification and student ID rows
     \noindent
@@ -244,16 +242,20 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
+    % Top-right Type Marker (硕/博)
+    \vspace*{-40pt}
+    \begin{flushright}
+      \fontsize{48pt}{48pt}\selectfont\sffamily\bfseries
+      \str_case:Vn \g__suep_degree_tl { {master}{硕} {doctor}{博} }
+    \end{flushright}
+
     \vspace{10mm}
     % Logo
-    % Based on the user screenshot, it should be centered and quite large
-    \begin{center}
-      \includegraphics[width=0.45\textwidth]{./images/logo.png}
-    \end{center}
+    \noindent\hspace{120pt}\includegraphics[height=48.25pt]{./images/logo.png}
 
-    \vspace{20mm}
-    % Thesis Type (硕（博）士学位论文) - 初号 / 小初 Black
-    {\centering\sffamily\bfseries\xiaochu \suep@type\par}
+    \vspace{25mm}
+    % Thesis Type
+    {\centering\sffamily\bfseries\xiaochu \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
     {
@@ -264,38 +266,37 @@
           { professional }
           {
             \vspace{5mm}
-            {\centering\bfseries\xiaosan \suep@type@en\par}
+            {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par}
           }
         }
       }
     }
 
     \vspace{25mm}
-    % Chinese Title: 黑体, 二号, 居中
-    {\centering\sffamily\bfseries\erhao \suep@c_title\par}
+    % Chinese Title
+    {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
       {
         { doctor }
         {
           \vspace{8mm} 
-          % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
-          {\centering\bfseries\erhao \suep@e_title\par}
+          % English Title
+          {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
-    \vspace{15mm} 
+    \vspace{25mm} 
     % Personal info block.
-    % 填写在下划线上的内容必须是 楷体 (Kaiti). 标签本身是 宋体, 三号 (16pt), 四号字号
     \begin{center}
       \sihao\sffamily\bfseries
       \def\arraystretch{1.8}
       \begin{tabular}{cl}
-        学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \suep@author} \\
-        指 \enspace 导 \enspace 教 \enspace 师 :~ & \ful[7cm]{\kaiti \suep@supervisor} \\
-        \suep@major@label & \ful[7cm]{\kaiti \suep@major} \\
-        学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \suep@degree} \\
-        所 \enspace 属 \enspace 院 \enspace 系 :~ & \ful[7cm]{\kaiti \suep@school}
+        学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_author_tl} \\
+        指 \enspace 导 \enspace 教 \enspace 师 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_supervisor_tl} \\
+        \tl_use:N \l__suep_major_label_tl & \ful[7cm]{\kaiti \tl_use:N \g__suep_major_tl} \\
+        学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_degree_type_tl} \\
+        所 \enspace 属 \enspace 院 \enspace 系 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_school_tl}
       \end{tabular}
     \end{center}
 
@@ -327,8 +328,8 @@
     \end{minipage}\par
 
     \vspace{25mm}
-    % Title (上海电力大学硕（博）士学位论文) / 宋体 24pt
-    {\centering\songti\bfseries\xiaoyi 上海电力大学\suep@type\par}
+    % Title (上海电力大学硕（博）士学位论文)
+    {\centering\sffamily\bfseries\xiaoyi 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
     {
@@ -339,38 +340,45 @@
           { professional }
           {
             \vspace{5mm}
-            {\centering\bfseries\xiaosan \suep@type@en\par}
+            {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par}
           }
         }
       }
     }
 
     \vspace{25mm} 
-    % Chinese Title: 黑体, 二号, 居中
-    {\centering\sffamily\bfseries\erhao \suep@c_title\par}
+    % Chinese Title
+    {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
       {
         { doctor }
         {
           \vspace{8mm} 
-          % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
-          {\centering\bfseries\erhao \suep@e_title\par}
+          % English Title
+          {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
     \vspace{35mm} 
-    % Personal info block.
+    % Personal info block for inner page.
     \begin{center}
-      \xiaosi\sffamily\bfseries
+      \sihao\sffamily\bfseries
       \def\arraystretch{1.8}
       \begin{tabular}{cl}
-        学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \suep@author} \\
-        指 \enspace 导 \enspace 教 \enspace 师 :~ & \ful[7cm]{\kaiti \suep@supervisor} \\
-        \suep@major@label & \ful[7cm]{\kaiti \suep@major} \\
-        学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \suep@degree} \\
+        学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_author_tl} \\
+        指 \enspace 导 \enspace 教 \enspace 师 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_supervisor_tl} \\
+        \tl_use:N \l__suep_major_label_tl & \ful[7cm]{\kaiti \tl_use:N \g__suep_major_tl} \\
+        学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_degree_type_tl} \\
         论 \enspace 文 \enspace 定 \enspace 稿 \enspace 日 \enspace 期:~ & \ful[7cm]{}
       \end{tabular}
+    \end{center}
+    
+    \vfill
+    % Date block
+    \begin{center}
+      \sihao\sffamily\bfseries
+      年 \hspace{2cm} 月
     \end{center}
   \end{titlepage}
 }
