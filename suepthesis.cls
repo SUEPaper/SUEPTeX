@@ -242,9 +242,15 @@
     \begin{minipage}{0.45\textwidth}
       \xiaosi 密\quad 级 \ful[3.5cm]{} \\
       \xiaosi 学\quad 号 \ful[3.5cm]{}
-    \end{minipage}
+    \end{minipage}\par
 
-    \vspace{20mm}
+    \vspace{15mm}
+    % Logo
+    \begin{center}
+      \includegraphics[height=1.5cm]{./images/logo.png}
+    \end{center}
+
+    \vspace{10mm}
     % Thesis Type (硕（博）士学位论文) - 初号 / 小初 Black
     {\centering\sffamily\bfseries\xiaochu \suep@type\par}
     
@@ -252,13 +258,19 @@
     % English Thesis Type: Times New Roman, 二号 (22pt), 加黑, 居中
     {\centering\bfseries\erhao \suep@type@en\par}
 
-    \vspace{20mm} 
+    \vspace{15mm} 
     % Chinese Title: 黑体, 二号, 居中
     {\centering\sffamily\bfseries\erhao \suep@c_title\par}
     
-    \vspace{8mm} 
-    % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
-    {\centering\bfseries\erhao \suep@e_title\par}
+    \str_case:Vn \g__suep_degree_tl
+      {
+        { doctor }
+        {
+          \vspace{8mm} 
+          % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
+          {\centering\bfseries\erhao \suep@e_title\par}
+        }
+      }
     
     \vspace{30mm} 
     % Personal info block.
