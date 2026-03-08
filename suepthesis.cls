@@ -242,16 +242,20 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
-    % Top-right Type Marker (硕/博)
-    \vspace*{-40pt}
-    \begin{flushright}
-      \fontsize{48pt}{48pt}\selectfont\sffamily\bfseries
-      \str_case:Vn \g__suep_degree_tl { {master}{硕} {doctor}{博} }
-    \end{flushright}
+    % Use a zero-height box to place floating elements (Logo and Marker)
+    \begin{picture}(0,0)
+      % Logo: DOCX margin-left:210.95pt. Page center is 297.5pt.
+      % We center the 161pt image at 292pt.
+      \put(125,-60){\includegraphics[height=48.25pt]{./images/logo.png}}
+      
+      % Marker (硕/博): DOCX margin-left:412.7pt.
+      % Relative to text (margin ~85pt), 412 - 85 = 327pt.
+      \put(350, -5){\fontsize{48pt}{48pt}\selectfont\sffamily\bfseries
+        \str_case:Vn \g__suep_degree_tl { {master}{硕} {doctor}{博} }
+      }
+    \end{picture}
 
-    \vspace{10mm}
-    % Logo
-    \noindent\hspace{120pt}\includegraphics[height=48.25pt]{./images/logo.png}
+    \vspace{45mm}
 
     \vspace{25mm}
     % Thesis Type
@@ -327,9 +331,9 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
-    \vspace{25mm}
-    % Title (上海电力大学硕（博）士学位论文)
-    {\centering\sffamily\bfseries\xiaoyi 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
+    \vspace{40mm}
+    % Title (上海电力大学 硕士学位论文)
+    {\centering\bfseries\erhao 上海电力大学 \\ \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
     {
@@ -390,7 +394,7 @@
   \clearpage
   \thispagestyle{empty} % Or roman numerals? For now using roman page numbers
   \begin{center}
-    {\sffamily\bfseries\sanhao \suep@c_title \par} % Thesis title in center
+    {\sffamily\bfseries\sanhao \tl_use:N \g__suep_c_title_tl \par} % Thesis title in center
     \vspace{1\baselineskip}
     {\sffamily\bfseries\sanhao 摘 \quad 要 \par}      % "摘 要" below, with space in between
   \end{center}
@@ -408,7 +412,7 @@
 \newenvironment{enabstract}{
   \clearpage
   \begin{center}
-    {\bfseries\erhao \suep@e_title \par}
+    {\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
     \vspace{2\baselineskip}
     {\bfseries\sanhao ABSTRACT \par}
   \end{center}
