@@ -228,17 +228,9 @@
 \NewDocumentCommand \MakeTitle {} {
   \begin{titlepage}
     \thispagestyle{empty}
-    
-    % 1. Degrees marker (Top Right) - Floating
-    \begin{picture}(0,0)
-      \put(350, -10){\fontsize{48pt}{48pt}\selectfont\sffamily\bfseries
-        \str_case:Vn \g__suep_degree_tl { {master}{硕} {doctor}{博} }
-      }
-    \end{picture}
-
     \vspace*{10mm}
     
-    % 2. Header (Classification / Student ID)
+    % 1. Header (Classification / Student ID)
     \noindent
     \begin{minipage}[t]{0.45\textwidth}
       \xiaosi 分\,类\,号 \ful[3.5cm]{} \\
@@ -250,15 +242,13 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
-    \vspace{30mm}
+    \vspace{20mm}
 
-    % 3. Logo (Centered)
-    \begin{center}
-      \includegraphics[height=48.25pt]{./images/logo.png}
-    \end{center}
+    % 2. Logo (Left Aligned as per Word screenshot)
+    \noindent\includegraphics[height=48.25pt]{./images/logo.png}\par
 
     \vspace{15mm}
-    % 4. Thesis Type (Chinese)
+    % 3. Thesis Type (Chinese)
     {\centering\sffamily\bfseries\xiaochu \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
     \vspace{5mm}
