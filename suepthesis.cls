@@ -79,11 +79,11 @@
 % header and footer separation: 2.0cm from the edges
 % NOTE: geometry includes the header and footer in the body size by default unless specified. In Word, the margin is the distance to the text body, and header/footer are within.
 \RequirePackage[a4paper,
-  top=3.5cm, bottom=2.5cm,
-  left=2.5cm, right=2.5cm,
-  headheight=0.5cm,
-  headsep=1.0cm, % Correct gap: 3.5cm (top) - 2.5cm (header position) = 1.0cm
-  footskip=0.5cm
+  top=3.0cm, bottom=2.5cm,
+  left=2.6cm, right=2.6cm,
+  headheight=15pt,
+  headsep=0.47cm, % 3.0cm - 2.0cm = 1.0cm total. 1.0cm - 15pt (~0.53cm) = 0.47cm
+  footskip=0.5cm  % 2.5cm - 2.0cm = 0.5cm
 ]{geometry}
 
 
@@ -100,7 +100,7 @@
 \RequirePackage{setspace}
 \RequirePackage{amssymb}
 \RequirePackage{booktabs}
-\RequirePackage[font=small, labelsep=quad]{caption}
+\RequirePackage{caption}
 \RequirePackage{bicaption}
 \RequirePackage{pdfpages}
 
@@ -127,21 +127,29 @@
 % Line Spacing (1.25 倍行距)
 \setstretch{1.25}
 
-% Setup captions for bilingual if doctor
+% Setup captions: Masters (Chinese only), PhD (Bilingual)
 \DeclareCaptionFont{wuhaosong}{\wuhao\songti}
-\captionsetup[figure]{font=wuhaosong, labelsep=quad}
-\captionsetup[table]{font=wuhaosong, labelsep=quad}
-\captionsetup[equation]{font=wuhaosong, labelsep=quad}
+\DeclareCaptionFont{wuhaotnr}{\wuhao\selectfont} % Times New Roman is default Roman
+
+% Common caption settings
+\captionsetup{font=wuhaosong, labelsep=quad, justification=centering}
 
 % If doctor degree, setup bicaption
 \str_case:Vn \g__suep_degree_tl
 {
   { doctor }
   {
-    \captionsetup[bi-first]{name=图, font=wuhaosong, labelsep=quad}
-    \captionsetup[bi-second]{name=Fig., font=wuhaosong, labelsep=quad} % Actually should be Times New Roman size 5. The base font for English is already set to Times New Roman in xeCJK/ctex
+    \captionsetup[bi-first]{font=wuhaosong, labelsep=quad}
+    \captionsetup[bi-second]{font=wuhaotnr, labelsep=quad}
   }
 }
+
+% Spacing between figure/table and text: 0.5 line
+\setlength{\intextsep}{0.5\baselineskip}
+\setlength{\textfloatsep}{0.5\baselineskip}
+\setlength{\abovetopsep}{0.5\baselineskip} % for booktabs toprule? no, \abovecaptionskip
+\setlength{\abovecaptionskip}{0.5\baselineskip}
+\setlength{\belowcaptionskip}{0pt}
 
 % -------------------------
 % 2. Headers and Footers
@@ -161,7 +169,7 @@
   % Font: Wuhao Times New Roman
   \fancyfoot[C]{\wuhao\selectfont\thepage}
   
-  % The double line under header: 線組 1 磅, 線長與頁面齊寬
+  % The double line under header: 线粗 1 磅, 线长与页面齐宽
   \renewcommand{\headrulewidth}{1pt}
   \renewcommand{\headrule}{%
     \hrule width\headwidth height\headrulewidth \vskip 1pt%
@@ -174,31 +182,36 @@
 % 3. Chapters & Sections Format (ctexset)
 % -------------------------
 \ctexset{
-  % Chapter (一级标题) 黑体, 三号, 居中. 段前空3行, 段后空2行.
+  % Chapter (一级标题) 黑体, 三号, 居中. 另起一页. 段前空3行, 段后空2行.
   section={
-    format=\centering\bfseries\sffamily\sanhao,
+    format=\clearpage\centering\bfseries\heiti\sanhao,
     name={第,章},
     number=\chinese{section},
+    aftername=\hspace{1\ccwd}, % 空一个字
     beforeskip=3\baselineskip,
     afterskip=2\baselineskip
   },
   % Section (二级标题) 宋体 加黑, 小三号. 段前空一行, 段后空0.5行.
   subsection={
-    format=\bfseries\rmfamily\xiaosan,
+    format=\bfseries\songti\xiaosan,
+    aftername=\hspace{1\ccwd}, % 空一个字
     beforeskip=1\baselineskip,
     afterskip=0.5\baselineskip
   },
   % Subsection (三级标题) 宋体 加黑, 四号. 左起空两字符. 段前空0.5行, 段后空0行.
   subsubsection={
-    format=\bfseries\rmfamily\sihao,
+    format=\bfseries\songti\sihao,
+    aftername=\hspace{1\ccwd}, % 空一个字
     indent=2\ccwd,
     beforeskip=0.5\baselineskip,
     afterskip=0pt
   }
 }
 
-% Paragraph settings: 宋体, 小四号, 首行缩进两字符
+% Paragraph settings: 宋体, 小四号, 首行缩进两字符. 1.25行间距. 段前段后0磅.
 \setlength{\parindent}{2\ccwd}
+\setlength{\parskip}{0pt}
+\setstretch{1.25}
 
 % -------------------------
 % 4. Cover & Title Page
@@ -255,45 +268,45 @@
     \noindent\includegraphics[height=48.25pt]{./images/logo.png}\par
 
     \vspace{10mm}
-    % 3. Thesis Type (Chinese)
-    {\centering\sffamily\bfseries\xiaochu \tl_use:N \l__suep_thesis_type_cn_tl \par}
+    % 3. Thesis Type (Chinese) - 小一号黑体
+    {\centering\bfseries\heiti\xiaoyi \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
     \vspace{5mm}
-    % 5. Thesis Type (English) - For Doctor or Professional Master
+    % 5. Thesis Type (English) - For Doctor or Professional Master - 三号 TNR Bold
     \str_case:Vn \g__suep_degree_tl
     {
       { doctor }
-      { {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par} }
+      { {\centering\bfseries\sanhao \tl_use:N \l__suep_thesis_type_en_tl \par} }
       { master }
       {
         \str_case:Vn \g__suep_degreetype_tl
         {
           { professional }
           {
-            {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par}
+            {\centering\bfseries\sanhao \tl_use:N \l__suep_thesis_type_en_tl \par}
           }
         }
       }
     }
 
     \vspace{15mm}
-    % 6. Chinese Title
-    {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
+    % 6. Chinese Title - 二号黑体
+    {\centering\bfseries\heiti\erhao \tl_use:N \g__suep_c_title_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
       {
         { doctor }
         {
           \vspace{5mm} 
-          % 7. English Title (Doctor only)
+          % 7. English Title (Doctor only) - 二号 TNR Bold
           {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
     \vspace{15mm} 
-    % 8. Personal info block.
+    % 8. Personal info block. - 四号宋体
     \begin{center}
-      \sihao\sffamily\bfseries
+      \sihao\songti
       \def\arraystretch{1.8}
       \begin{tabular}{cl}
         学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_author_tl} \\
@@ -307,7 +320,7 @@
     \vfill
     % 9. Date block
     \begin{center}
-      \sihao\sffamily\bfseries
+      \sihao\songti
       年 \hspace{2cm} 月
     \end{center}
   \end{titlepage}
@@ -332,27 +345,27 @@
     \end{minipage}\par
 
     \vspace{30mm}
-    % Title (上海电力大学 硕士学位论文)
-    {\centering\bfseries\xiaoyi 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
+    % Title (上海电力大学 硕士学位论文) - 小一号黑体
+    {\centering\bfseries\heiti\xiaoyi 上海电力大学 \tl_use:N \l__suep_thesis_type_cn_tl \par}
 
     \vspace{15mm} 
-    % Chinese Title
-    {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
+    % Chinese Title - 二号黑体
+    {\centering\bfseries\heiti\erhao \tl_use:N \g__suep_c_title_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
       {
         { doctor }
         {
           \vspace{5mm} 
-          % English Title
+          % English Title - 二号 TNR Bold
           {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
     \vspace{25mm} 
-    % Personal info block for inner page.
+    % Personal info block for inner page. - 小四号宋体
     \begin{center}
-      \sihao\sffamily\bfseries
+      \xiaosi\songti
       \def\arraystretch{1.8}
       \begin{tabular}{cl}
         学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \tl_use:N \g__suep_author_tl} \\
@@ -366,7 +379,7 @@
     \vfill
     % Date block
     \begin{center}
-      \sihao\sffamily\bfseries
+      \sihao\songti
       年 \hspace{2cm} 月
     \end{center}
   \end{titlepage}
@@ -389,13 +402,14 @@
   \clearpage
   \pagenumbering{Roman}
   \pagestyle{suep_header}
-  % Set leftmark for the odd page header
-  \markboth{\tl_use:N \g__suep_c_title_tl}{\tl_use:N \g__suep_c_title_tl}
+  % Set leftmark for the odd page header: Use "摘要" instead of title
+  \markboth{摘 \quad 要}{摘 \quad 要}
+  \addcontentsline{toc}{section}{摘 \quad 要}
   
   \begin{center}
-    {\sffamily\bfseries\sanhao \tl_use:N \g__suep_c_title_tl \par}
+    {\bfseries\heiti\sanhao \tl_use:N \g__suep_c_title_tl \par}
     \vspace{1\baselineskip}
-    {\sffamily\bfseries\sanhao 摘 \quad 要 \par}
+    {\bfseries\heiti\sanhao 摘 \hspace{1\ccwd} 要 \par}
   \end{center}
   \vspace{1\baselineskip}
   \sihao\songti
@@ -403,13 +417,15 @@
 
 \newcommand{\cnkeywords}[1]{
   \par\vspace{1\baselineskip}\noindent
-  {\sffamily\bfseries\sihao 关键词：} % Bold size 4 Heiti
+  {\bfseries\heiti\sihao 关键词：} % Bold size 4 Heiti
   {\sihao\songti #1}
 }
 
 \newenvironment{enabstract}{
   \clearpage
-  \markboth{\tl_use:N \g__suep_e_title_tl}{\tl_use:N \g__suep_e_title_tl}
+  \pagestyle{suep_header} % Ensure header is present
+  \markboth{ABSTRACT}{ABSTRACT}
+  \addcontentsline{toc}{section}{ABSTRACT}
   
   \begin{center}
     \vspace*{3\baselineskip} % 段前空3行
@@ -419,7 +435,7 @@
   \end{center}
   \vspace{2\baselineskip} % 下空二行打印正文
   \sihao % Default Times New Roman size 4
-  \setlength{\parindent}{4em} % 留四个字符空格 (approx 4em in TNR)
+  \setlength{\parindent}{4em} % 留四个字符空格
 }{\clearpage}
 
 \newcommand{\enkeywords}[1]{
@@ -429,9 +445,55 @@
 }
 
 % TOC formatting
-\renewcommand{\contentsname}{\centerline{\sffamily\bfseries\sanhao 目\quad 录}}
-\titlecontents{section}[0em]{\songti\xiaosi}{\thecontentslabel\quad}{}{\titlerule*[0.5pc]{.}\contentspage}
-\titlecontents{subsection}[2em]{\songti\xiaosi}{\thecontentslabel\quad}{}{\titlerule*[0.5pc]{.}\contentspage}
-\titlecontents{subsubsection}[4em]{\songti\xiaosi}{\thecontentslabel\quad}{}{\titlerule*[0.5pc]{.}\contentspage}
+\renewcommand{\contentsname}{目 \hspace{2\ccwd} 录}
+\renewcommand{\tableofcontents}{
+  \clearpage
+  \pagestyle{suep_header}
+  \markboth{目 \hspace{1\ccwd} 录}{目 \hspace{1\ccwd} 录} % Header with some space
+  \addcontentsline{toc}{section}{\contentsname}
+  \begin{center}
+    \vspace*{3\baselineskip} % 段前空3行
+    \begin{spacing}{1.25} % 1.25 倍行距
+      {\bfseries\heiti\sanhao \contentsname \par} % 三号黑体
+    \end{spacing}
+    \vspace{2\baselineskip} % 段后空2行 (下空两行为目录正文)
+  \end{center}
+  \@starttoc{toc}
+}
+
+% 目录正文: 第一级标题左边顶格对齐 (0em)
+% 下一级标题左端空一个字符 (1\ccwd)
+\titlecontents{section}[0em]{\vspace{0.2\baselineskip}\sihao\songti}{\thecontentslabel\hspace{1\ccwd}}{}{\titlerule*[0.5pc]{.}\contentspage}
+\titlecontents{subsection}[1\ccwd]{\sihao\songti}{\thecontentslabel\hspace{1\ccwd}}{}{\titlerule*[0.5pc]{.}\contentspage}
+\titlecontents{subsubsection}[2\ccwd]{\sihao\songti}{\thecontentslabel\hspace{1\ccwd}}{}{\titlerule*[0.5pc]{.}\contentspage}
+
+% English TOC formatting (for doctor)
+\titlecontents{esection}[0em]{\vspace{0.2\baselineskip}\sihao\selectfont}{\thecontentslabel\hspace{1\ccwd}}{}{\titlerule*[0.5pc]{.}\contentspage}
+\titlecontents{esubsection}[1\ccwd]{\sihao\selectfont}{\thecontentslabel\hspace{1\ccwd}}{}{\titlerule*[0.5pc]{.}\contentspage}
+\titlecontents{esubsubsection}[2\ccwd]{\sihao\selectfont}{\thecontentslabel\hspace{1\ccwd}}{}{\titlerule*[0.5pc]{.}\contentspage}
+
+% English TOC for Doctor (PhD)
+\newcommand{\englishtableofcontents}{
+  \str_if_eq:VnTF \g__suep_degree_tl { doctor }
+  {
+    \clearpage
+    \pagestyle{suep_header}
+    \markboth{Contents}{Contents}
+    \addcontentsline{toc}{section}{Contents}
+    \begin{center}
+      \vspace*{3\baselineskip}
+      {\bfseries\sanhao CONTENTS \par}
+      \vspace{2\baselineskip}
+    \end{center}
+    \@starttoc{etoc}
+  }{
+    % Do nothing for master
+  }
+}
+
+% Helper commands for English TOC entries
+\newcommand{\addengcontents}[3]{
+  \addcontentsline{etoc}{e#1}{#2 #3}
+}
 
 % End of suepthesis class
