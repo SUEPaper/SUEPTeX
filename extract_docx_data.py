@@ -13,8 +13,8 @@ def extract_docx_data(doc_path, content_md_path, comments_md_path):
         # 1. Extract Main Content
         print("Extracting main content...")
         content_text = doc.Content.Text
-        # Simple cleanup if needed, but win32com returns raw text with \r for newlines
-        content_markdown = content_text.replace("\r", "\n")
+        # Clean up control characters: \x0c is Form Feed (page break in Word)
+        content_markdown = content_text.replace("\x0c", "\n").replace("\r", "\n")
         
         with open(content_md_path, "w", encoding="utf-8") as f:
             f.write("# 文档内容\n\n")
