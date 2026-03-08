@@ -272,7 +272,7 @@
         }
       }
     
-    \vspace{30mm} 
+    \vspace{15mm} 
     % Personal info block.
     % 填写在下划线上的内容必须是 楷体 (Kaiti). 标签本身是 宋体, 三号 (16pt), 四号字号
     \begin{center}
@@ -284,6 +284,80 @@
         \suep@major@label & \ful[7cm]{\kaiti \suep@major} \\
         学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \suep@degree} \\
         所 \enspace 属 \enspace 院 \enspace 系 :~ & \ful[7cm]{\kaiti \suep@school}
+      \end{tabular}
+    \end{center}
+
+    \vfill
+    % Date block
+    \begin{center}
+      \sihao\sffamily\bfseries
+      年 \hspace{2cm} 月
+    \end{center}
+  \end{titlepage}
+
+  % ==============================
+  % INNER TITLE PAGE (扉页)
+  % ==============================
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \vspace*{10mm}
+    
+    % Classification and student ID rows
+    \noindent
+    \begin{minipage}{0.45\textwidth}
+      \xiaosi 分\,类\,号 \ful[3.5cm]{} \\
+      \xiaosi 单位代号 \ful[3.5cm]{10256}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+      \xiaosi 密\quad 级 \ful[3.5cm]{} \\
+      \xiaosi 学\quad 号 \ful[3.5cm]{}
+    \end{minipage}\par
+
+    \vspace{25mm}
+    % Title (上海电力大学硕（博）士学位论文) / 宋体 24pt
+    {\centering\songti\bfseries\xiaoyi 上海电力大学\suep@type\par}
+    
+    \str_case:Vn \g__suep_degree_tl
+    {
+      { master }
+      {
+        \str_case:Vn \g__suep_degreetype_tl
+        {
+          { professional }
+          {
+            \vspace{5mm}
+            {\centering\bfseries\xiaosan \suep@type@en\par}
+          }
+        }
+      }
+    }
+
+    \vspace{25mm} 
+    % Chinese Title: 黑体, 二号, 居中
+    {\centering\sffamily\bfseries\erhao \suep@c_title\par}
+    
+    \str_case:Vn \g__suep_degree_tl
+      {
+        { doctor }
+        {
+          \vspace{8mm} 
+          % English Title: Times New Roman, 二号 (22pt), 加黑, 居中
+          {\centering\bfseries\erhao \suep@e_title\par}
+        }
+      }
+    
+    \vspace{35mm} 
+    % Personal info block.
+    \begin{center}
+      \xiaosi\sffamily\bfseries
+      \def\arraystretch{1.8}
+      \begin{tabular}{cl}
+        学 \enspace 位 \enspace 申 \enspace 请 \enspace 人 :~ & \ful[7cm]{\kaiti \suep@author} \\
+        指 \enspace 导 \enspace 教 \enspace 师 :~ & \ful[7cm]{\kaiti \suep@supervisor} \\
+        \suep@major@label & \ful[7cm]{\kaiti \suep@major} \\
+        学 \enspace 位 \enspace 类 \enspace 别 :~ & \ful[7cm]{\kaiti \suep@degree} \\
+        论 \enspace 文 \enspace 定 \enspace 稿 \enspace 日 \enspace 期:~ & \ful[7cm]{}
       \end{tabular}
     \end{center}
   \end{titlepage}
