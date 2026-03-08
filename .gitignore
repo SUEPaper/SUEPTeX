@@ -9,6 +9,4 @@
 !./images/**
 !./chapters/
 !./chapters/**
-!./abstracts/
-!./abstracts/**
 !.gitignore
