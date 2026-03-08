@@ -98,6 +98,7 @@
 \RequirePackage{titlesec}
 \RequirePackage{titletoc}
 \RequirePackage{setspace}
+\RequirePackage{amssymb}
 \RequirePackage{booktabs}
 \RequirePackage[font=small, labelsep=quad]{caption}
 \RequirePackage{bicaption}
@@ -146,10 +147,11 @@
 % -------------------------
 \fancypagestyle{suep_header}{
   \fancyhf{}
-  % Odd page header: Chapter title (needs setup via marks)
+  % Odd page header: Thesis Title (for front matter) or Chapter title (for main matter)
+  % We use \thesectionmark or similar if not in chapter, but here usually \leftmark or \rightmark
   \fancyhead[CO]{\wuhao\songti\leftmark}
-  % Even page header:
-  \fancyhead[CE]{\wuhao\songti \suep@header@even}
+  % Even page header: University + Thesis Type
+  \fancyhead[CE]{\wuhao\songti \tl_use:N \l__suep_header_even_tl}
   
   % Footers - Page number in Center
   \fancyfoot[C]{\wuhao\selectfont\thepage}
@@ -383,20 +385,62 @@
   \end{titlepage}
 }
 
+% ==============================
+% 授权书 PAGE (Copyright Authorization)
+% ==============================
+\newcommand{\makeauthpage}{
+  \clearpage
+  \thispagestyle{empty}
+  \vspace*{20mm}
+  \begin{center}
+    {\sffamily\bfseries\erhao 上海电力大学学位论文版权使用授权书 \par}
+  \end{center}
+  
+  \vspace{10mm}
+  \sihao\songti\setstretch{1.8}
+  本学位论文作者完全了解学校有关保留、使用学位论文的规定，同意学校保留并向国家有关部门或机构送交论文的复印件和电子版，允许论文被查阅和借阅。本人授权上海电力大学可以将本学位论文的全部或部分内容编入有关数据库进行检索，可以采用影印、缩印或扫描等复制手段保存和汇编本学位论文。\par
+  \vspace{10mm}
+  \noindent
+  \begin{minipage}[t]{0.5\textwidth}
+    \textbf{保密} \square，在 \ful[1.5cm]{} 年解密后适用本授权书。
+  \end{minipage}
+  \begin{minipage}[t]{0.45\textwidth}
+    \hspace{2em} \textbf{本学位论文属于}
+  \end{minipage}\par
+  \vspace{5mm}
+  \noindent
+  \begin{minipage}[t]{0.5\textwidth}
+    \textbf{不保密} \square。
+  \end{minipage}\par
+  \vspace{5mm}
+  \centerline{（请在以上方框内打“ $\checkmark$ ”）}\par
+  
+  \vspace{30mm}
+  \noindent
+  学位论文作者签名：\ful[3.5cm]{} \hfill 指导教师签名：\ful[3.5cm]{} \par
+  \vspace{5mm}
+  \noindent
+  日期：\ful[0.8cm]{} 年 \ful[0.5cm]{} 月 \ful[0.5cm]{} 日 \hfill 日期：\ful[0.8cm]{} 年 \ful[0.5cm]{} 月 \ful[0.5cm]{} 日 \par
+  \clearpage
+}
+
 % -------------------------
 % 5. Abstract & TOC
 % -------------------------
 \newenvironment{cnabstract}{
   \clearpage
-  \thispagestyle{empty} % Or roman numerals? For now using roman page numbers
+  \pagenumbering{Roman}
+  \pagestyle{suep_header}
+  % Set leftmark for the odd page header
+  \markboth{\tl_use:N \g__suep_c_title_tl}{\tl_use:N \g__suep_c_title_tl}
+  
   \begin{center}
-    {\sffamily\bfseries\sanhao \tl_use:N \g__suep_c_title_tl \par} % Thesis title in center
-    \vspace{1\baselineskip}
-    {\sffamily\bfseries\sanhao 摘 \quad 要 \par}      % "摘 要" below, with space in between
+    {\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
+    \vspace{2\baselineskip}
+    {\sffamily\bfseries\sanhao 摘 \quad 要 \par}
   \end{center}
   \par\vspace{1\baselineskip}
-  % Text configuration
-  \sihao\songti % Size 4 Songti
+  \sihao\songti
 }{\clearpage}
 
 \newcommand{\cnkeywords}[1]{
@@ -407,19 +451,19 @@
 
 \newenvironment{enabstract}{
   \clearpage
+  \markboth{\tl_use:N \g__suep_e_title_tl}{\tl_use:N \g__suep_e_title_tl}
   \begin{center}
     {\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
     \vspace{2\baselineskip}
     {\bfseries\sanhao ABSTRACT \par}
   \end{center}
   \par\vspace{2\baselineskip}
-  % Text configuration
-  \sihao
+  \sihao % Default Times New Roman size 4
 }{\clearpage}
 
 \newcommand{\enkeywords}[1]{
   \par\vspace{2\baselineskip}\noindent
-  {\bfseries\sihao KEY~WORDS:~}
+  {\bfseries\sihao KEY WORDS:~}
   {\sihao #1}
 }
 
