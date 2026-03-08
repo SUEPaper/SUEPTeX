@@ -4,6 +4,7 @@
 !*.sh
 !*.bat
 !*.py
-!*.pdf
+!auth.pdf
 !./images/*
+!./chapters/*
 !.gitignore

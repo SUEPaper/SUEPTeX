@@ -59,69 +59,12 @@ In addition, the word "KEY WORDS" below the abstract should use "Times New Roman
 % ====================
 % 正文开始
 % ====================
-\startmainbody
+\pagenumbering{arabic}
+\pagestyle{suep_header}
 
-\section{各级标题与段落格式测试}
-本章主要用于测试一级、二级、三级标题的格式规范，以及普通正文的段落排版。
-
-根据规范要求，正文部分的各种中文基本都应该是宋体、小四号，而数字和英文应该是 Times New Roman、小四号体。整篇文章采用首行缩进两个汉字，采用 1.25 倍的行距，并且段前段后距均为 0 磅。
-
-所有的单数页页眉为当前章节标题，而偶数页页眉固定为“上海电力大学硕士/博士学位论文”。我们可以通过翻到下一页来验证偶数页页眉。
-
-\subsection{二级标题的规范检查}
-这是二级标题。按照要求，二级标题应该左对齐顶格，小三号宋体并且加黑，1.25倍行距，段前空一行，段后空 0.5 行。
-
-我们在此处多写几段文字，以便将内容推送到第二页验证偶数页页眉是否正常显示。
-
-这是另起的一段。所有的行文必须满足左右两端对齐的要求。这一页是奇数页，如果排版准确，页眉处的文字应该是“第一章 各级标题与段落格式测试”。
-
-\subsubsection{三级标题测试}
-这部分是三级标题的测试区。按照要求，三级标题应当左起空两个汉字字符，使用四号宋体并且加黑。段前应空 0.5 行，段后空 0 行。请仔细检查本标题左侧是否有相当于两个汉字宽度的留白。
-
-% ====================
-% 公式测试
-% ====================
-\section{公式、图表排版测试}
-本章我们将插入一些常见的数学公式、图和表，用以测试这些浮动体环境以及公式对齐是否符合标准。
-
-\subsection{公式环境}
-规范中要求“公式居中，序号顶右”。我们可以通过下方的方程测试此项规则：
-
-\begin{equation}
-  E = m c^2
-\end{equation}
-
-另一个多行的推导公式：
-\begin{eqnarray}
-  a &=& b + c \\
-  c &=& d + e
-\end{eqnarray}
-
-\subsection{图表环境}
-对于硕士生来说，插图的图题只需使用中文，字号为“五号、宋体、居中排写”。我们将在这里插入一个虚拟图（图 \ref{fig:test}）用以检视图题的外观与文字。
-
-\begin{figure}[H]
-  \centering
-  \rule{6cm}{3cm} % A simple black box acting as an image
-  \caption{这是一个测试用途的虚拟插图}
-  \label{fig:test}
-\end{figure}
-
-表题也要遵循同样的规则，不过表格一般推荐使用“三线表”格式。如下表 \ref{tab:test} 所示：
-
-\begin{table}[H]
-  \centering
-  \caption{这是一个测试使用的数据表格}
-  \label{tab:test}
-  \begin{tabular}{ccc}
-    \toprule
-    测试项目 & 期望字号 & 期望字体 \\
-    \midrule
-    图题/表题 & 五号 & 宋体 \\
-    正文内容 & 小四号 & 宋体/Times New Roman \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\input{chapters/chap01}
+\input{chapters/chap02}
+\input{chapters/chap03}
 
 \section{参考文献}
 为了测试参考文献目录，我们在文末通常会有相关的 `thebibliography` 环境配置。由于尚未提供完整的参考文献环境规范，我们这里的验证重心停留在正文及标题格式。

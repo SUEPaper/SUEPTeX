@@ -101,9 +101,9 @@
 \RequirePackage{setspace}
 \RequirePackage{amssymb}
 \RequirePackage{booktabs}
-\RequirePackage{caption}
 \RequirePackage{bicaption}
 \RequirePackage{pdfpages}
+\RequirePackage{enumitem}
 
 % -------------------------
 % 1. Font Definitions
@@ -523,9 +523,9 @@
   \clearpage
   \section*{\refname}
   \addcontentsline{toc}{section}{\refname}
-  \if_str_eq:Vn \g__suep_degree_tl { doctor }
-    \addengcontents{section}{}{\refname}
-  \fi
+  \str_if_eq:VnTF \g__suep_degree_tl { doctor }
+    { \addengcontents{section}{}{\refname} }
+    { }
   \list{\@biblabel{\@arabic\c@enumiv}}
        {\settowidth\labelwidth{\@biblabel{#1}}
         \leftmargin\labelwidth
@@ -567,26 +567,26 @@
 \newcommand{\acknowledgment}{
   \section*{致 \quad 谢}
   \addcontentsline{toc}{section}{致 \quad 谢}
-  \if_str_eq:Vn \g__suep_degree_tl { doctor }
-    \addengcontents{section}{}{Acknowledgements}
-  \fi
+  \str_if_eq:VnTF \g__suep_degree_tl { doctor }
+    { \addengcontents{section}{}{Acknowledgements} }
+    { }
   \markboth{致 \quad 谢}{致 \quad 谢}
 }
 
 \newcommand{\achievements}{
   \section*{攻读硕士/博士学位期间发表学术论文情况}
   \addcontentsline{toc}{section}{攻读硕士/博士学位期间发表学术论文情况}
-  \if_str_eq:Vn \g__suep_degree_tl { doctor }
-    \addengcontents{section}{}{Academic Papers Published During the Period of Study}
-  \fi
+  \str_if_eq:VnTF \g__suep_degree_tl { doctor }
+    { \addengcontents{section}{}{Academic Papers Published During the Period of Study} }
+    { }
 }
 
 \newcommand{\projects}{
   \section*{攻读博士学位期间参加的科研工作}
   \addcontentsline{toc}{section}{攻读博士学位期间参加的科研工作}
-  \if_str_eq:Vn \g__suep_degree_tl { doctor }
-    \addengcontents{section}{}{Scientific Research Projects Involved During Doctoral Study}
-  \fi
+  \str_if_eq:VnTF \g__suep_degree_tl { doctor }
+    { \addengcontents{section}{}{Scientific Research Projects Involved During Doctoral Study} }
+    { }
 }
 
 % End of suepthesis class
