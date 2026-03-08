@@ -11,9 +11,21 @@ def process_word_doc(doc_path, output_pdf_path):
         # 1. Remove all comments/annotations
         if doc.Comments.Count > 0:
             doc.DeleteAllComments()
-            print(f"Removed {doc.Comments.Count} comments (after deletion check).")
-        
-        # 2. Find the page with "上海电力大学学位论文版权使用授权书"
+            print("Removed comments.")
+            
+        # 2. Accept all revisions
+        if doc.Revisions.Count > 0:
+            doc.Revisions.AcceptAll()
+            print("Accepted all revisions.")
+            
+        # 3. Delete all Shapes (like callouts/text boxes)
+        shape_count = doc.Shapes.Count
+        for i in range(shape_count, 0, -1):
+            doc.Shapes(i).Delete()
+        if shape_count > 0:
+            print(f"Deleted {shape_count} shapes.")
+            
+        # 4. Find the page with "上海电力大学学位论文版权使用授权书"
         # We search for the text and get its page number
         find_range = doc.Content
         find_range.Find.Execute(FindText="上海电力大学学位论文版权使用授权书")
