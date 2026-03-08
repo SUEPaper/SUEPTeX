@@ -102,6 +102,7 @@
 \RequirePackage{booktabs}
 \RequirePackage[font=small, labelsep=quad]{caption}
 \RequirePackage{bicaption}
+\RequirePackage{pdfpages}
 
 % -------------------------
 % 1. Font Definitions
@@ -391,36 +392,7 @@
 \newcommand{\makeauthpage}{
   \clearpage
   \thispagestyle{empty}
-  \vspace*{20mm}
-  \begin{center}
-    {\sffamily\bfseries\erhao 上海电力大学学位论文版权使用授权书 \par}
-  \end{center}
-  
-  \vspace{10mm}
-  \sihao\songti\setstretch{1.8}
-  本学位论文作者完全了解学校有关保留、使用学位论文的规定，同意学校保留并向国家有关部门或机构送交论文的复印件和电子版，允许论文被查阅和借阅。本人授权上海电力大学可以将本学位论文的全部或部分内容编入有关数据库进行检索，可以采用影印、缩印或扫描等复制手段保存和汇编本学位论文。\par
-  \vspace{10mm}
-  \noindent
-  \begin{minipage}[t]{0.5\textwidth}
-    \textbf{保密} $\square$，在 \ful[1.5cm]{} 年解密后适用本授权书。
-  \end{minipage}
-  \begin{minipage}[t]{0.45\textwidth}
-    \hspace{2em} \textbf{本学位论文属于}
-  \end{minipage}\par
-  \vspace{5mm}
-  \noindent
-  \begin{minipage}[t]{1.0\textwidth}
-    \textbf{不保密} $\square$。
-  \end{minipage}\par
-  \vspace{5mm}
-  \centerline{（请在以上方框内打“ $\checkmark$ ”）}\par
-  
-  \vspace{30mm}
-  \noindent
-  学位论文作者签名：\ful[3.5cm]{} \hfill 指导教师签名：\ful[3.5cm]{} \par
-  \vspace{5mm}
-  \noindent
-  日期：\ful[0.8cm]{} 年 \ful[0.5cm]{} 月 \ful[0.5cm]{} 日 \hfill 日期：\ful[0.8cm]{} 年 \ful[0.5cm]{} 月 \ful[0.5cm]{} 日 \par
+  \includepdf{auth.pdf}
   \clearpage
 }
 
