@@ -244,21 +244,34 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
-    \vspace{15mm}
+    \vspace{10mm}
     % Logo
+    % Based on DOCX VML: width:161.9pt;height:48.25pt. 
+    % We use \makebox to shift it slightly left if needed, or just \centering.
     \begin{center}
-      \includegraphics[height=1.5cm]{./images/logo.png}
+      \includegraphics[height=48.25pt]{./images/logo.png}
     \end{center}
 
-    \vspace{10mm}
+    \vspace{20mm}
     % Thesis Type (硕（博）士学位论文) - 初号 / 小初 Black
     {\centering\sffamily\bfseries\xiaochu \suep@type\par}
     
-    \vspace{8mm} 
-    % English Thesis Type: Times New Roman, 二号 (22pt), 加黑, 居中
-    {\centering\bfseries\erhao \suep@type@en\par}
+    \str_case:Vn \g__suep_degree_tl
+    {
+      { master }
+      {
+        \str_case:Vn \g__suep_degreetype_tl
+        {
+          { professional }
+          {
+            \vspace{5mm}
+            {\centering\bfseries\xiaosan \suep@type@en\par}
+          }
+        }
+      }
+    }
 
-    \vspace{15mm} 
+    \vspace{25mm}
     % Chinese Title: 黑体, 二号, 居中
     {\centering\sffamily\bfseries\erhao \suep@c_title\par}
     
