@@ -246,8 +246,10 @@
 
     \vspace{10mm}
     % Logo
-    % Based on DOCX visual reference, the logo is aligned to the left margin.
-    \noindent\includegraphics[height=48.25pt]{./images/logo.png}
+    % Based on the user screenshot, it should be centered and quite large
+    \begin{center}
+      \includegraphics[width=0.45\textwidth]{./images/logo.png}
+    \end{center}
 
     \vspace{20mm}
     % Thesis Type (硕（博）士学位论文) - 初号 / 小初 Black
