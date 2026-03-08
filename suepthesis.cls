@@ -228,48 +228,51 @@
 \NewDocumentCommand \MakeTitle {} {
   \begin{titlepage}
     \thispagestyle{empty}
-    \vspace*{-50pt}
     
-    % Classification and student ID rows
-    \noindent
-    \begin{minipage}{0.45\textwidth}
-      \xiaosi 分\,类\,号 \ful[3.5cm]{} \\
-      \xiaosi 单位代号 \ful[3.5cm]{10256}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.45\textwidth}
-      \xiaosi 密\quad 级 \ful[3.5cm]{} \\
-      \xiaosi 学\quad 号 \ful[3.5cm]{}
-    \end{minipage}\par
-
-    % Use a zero-height box to place floating elements (Logo and Marker)
+    % 1. Degrees marker (Top Right) - Floating
     \begin{picture}(0,0)
-      % Logo: DOCX margin-left:210.95pt. Page center is 297.5pt.
-      % We center the 161pt image at 292pt.
-      \put(125,-60){\includegraphics[height=48.25pt]{./images/logo.png}}
-      
-      % Marker (硕/博): DOCX margin-left:412.7pt.
-      % Relative to text (margin ~85pt), 412 - 85 = 327pt.
-      \put(350, -5){\fontsize{48pt}{48pt}\selectfont\sffamily\bfseries
+      \put(350, -10){\fontsize{48pt}{48pt}\selectfont\sffamily\bfseries
         \str_case:Vn \g__suep_degree_tl { {master}{硕} {doctor}{博} }
       }
     \end{picture}
 
-    \vspace{45mm}
+    \vspace*{10mm}
+    
+    % 2. Header (Classification / Student ID)
+    \noindent
+    \begin{minipage}[t]{0.45\textwidth}
+      \xiaosi 分\,类\,号 \ful[3.5cm]{} \\
+      \xiaosi 单位代号 \ful[3.5cm]{10256}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+      \xiaosi 密\quad 级 \ful[3.5cm]{} \\
+      \xiaosi 学\quad 号 \ful[3.5cm]{}
+    \end{minipage}\par
 
-    \vspace{25mm}
-    % Thesis Type
+    \vspace{30mm}
+
+    % 3. Logo (Centered)
+    \begin{center}
+      \includegraphics[height=48.25pt]{./images/logo.png}
+    \end{center}
+
+    \vspace{15mm}
+    % 4. Thesis Type (Chinese)
     {\centering\sffamily\bfseries\xiaochu \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
+    \vspace{5mm}
+    % 5. Thesis Type (English) - For Doctor or Professional Master
     \str_case:Vn \g__suep_degree_tl
     {
+      { doctor }
+      { {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par} }
       { master }
       {
         \str_case:Vn \g__suep_degreetype_tl
         {
           { professional }
           {
-            \vspace{5mm}
             {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par}
           }
         }
@@ -277,7 +280,7 @@
     }
 
     \vspace{25mm}
-    % Chinese Title
+    % 6. Chinese Title
     {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
     
     \str_case:Vn \g__suep_degree_tl
@@ -285,13 +288,13 @@
         { doctor }
         {
           \vspace{8mm} 
-          % English Title
+          % 7. English Title (Doctor only)
           {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
     \vspace{25mm} 
-    % Personal info block.
+    % 8. Personal info block.
     \begin{center}
       \sihao\sffamily\bfseries
       \def\arraystretch{1.8}
@@ -305,7 +308,7 @@
     \end{center}
 
     \vfill
-    % Date block
+    % 9. Date block
     \begin{center}
       \sihao\sffamily\bfseries
       年 \hspace{2cm} 月
@@ -321,12 +324,12 @@
     
     % Classification and student ID rows
     \noindent
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}[t]{0.45\textwidth}
       \xiaosi 分\,类\,号 \ful[3.5cm]{} \\
       \xiaosi 单位代号 \ful[3.5cm]{10256}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}[t]{0.45\textwidth}
       \xiaosi 密\quad 级 \ful[3.5cm]{} \\
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
@@ -335,15 +338,18 @@
     % Title (上海电力大学 硕士学位论文)
     {\centering\bfseries\erhao 上海电力大学 \\ \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
+    \vspace{5mm}
+    % Thesis Type (English) for Inner Page
     \str_case:Vn \g__suep_degree_tl
     {
+      { doctor }
+      { {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par} }
       { master }
       {
         \str_case:Vn \g__suep_degreetype_tl
         {
           { professional }
           {
-            \vspace{5mm}
             {\centering\bfseries\xiaosan \tl_use:N \l__suep_thesis_type_en_tl \par}
           }
         }
