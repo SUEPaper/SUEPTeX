@@ -413,7 +413,7 @@
     {\bfseries\heiti\sanhao 摘 \hspace{1\ccwd} 要 \par}
   \end{center}
   \vspace{1\baselineskip}
-  \sihao\songti
+  \sihao\songti % Abstract text size 4 Songti
 }{\clearpage}
 
 \newcommand{\cnkeywords}[1]{
@@ -431,11 +431,11 @@
   \begin{center}
     \vspace*{3\baselineskip} % 段前空3行
     {\bfseries\sanhao \MakeUppercase{\tl_use:N \g__suep_e_title_tl} \par}
-    \vspace{3\baselineskip} % 题目下空三行
+    \vspace{3\baselineskip} % 题目下空三行 (Shape 20)
     {\bfseries\sanhao ABSTRACT \par}
   \end{center}
-  \vspace{2\baselineskip} % 下空二行打印正文
-  \sihao % Default Times New Roman size 4
+  \vspace{2\baselineskip} % 下空二行打印正文 (Shape 20)
+  \sihao % Default Times New Roman size 4 (Shape 21)
   \setlength{\parindent}{4em} % 留四个字符空格
 }{\clearpage}
 
@@ -495,6 +495,98 @@
 % Helper commands for English TOC entries
 \newcommand{\addengcontents}[3]{
   \addcontentsline{etoc}{e#1}{#2 #3}
+}
+
+% -------------------------
+% 6. Main Body & Back Matter
+% -------------------------
+
+% Start of main body: reset numbering and set header style
+\newcommand{\startmainbody}{
+  \clearpage
+  \pagenumbering{arabic}
+  \pagestyle{suep_header}
+}
+
+% Equation explanation environment (式中：)
+% Use: \begin{eqexpl} \item[m] Mass \item[c] Light speed \end{eqexpl}
+\newenvironment{eqexpl}{
+  \par\noindent 式中：\par
+  \begin{description}[leftmargin=2\ccwd, labelsep=1\ccwd, nosep]
+}{
+  \end{description}
+}
+
+% Bibliography formatting
+\RequirePackage[numbers,sort&compress]{natbib}
+\renewenvironment{thebibliography}[1]{
+  \clearpage
+  \section*{\refname}
+  \addcontentsline{toc}{section}{\refname}
+  \if_str_eq:Vn \g__suep_degree_tl { doctor }
+    \addengcontents{section}{}{\refname}
+  \fi
+  \list{\@biblabel{\@arabic\c@enumiv}}
+       {\settowidth\labelwidth{\@biblabel{#1}}
+        \leftmargin\labelwidth
+        \advance\leftmargin\labelsep
+        \advance\leftmargin 2\ccwd % 每个文献均空两个字符起排
+        \itemindent -2\ccwd     % 回行时顶格排
+        \@openbib@code
+        \usecounter{enumiv}
+        \let\p@enumiv\@empty
+        \renewcommand\theenumiv{\@arabic\c@enumiv}}
+  \sloppy
+  \clubpenalty4000
+  \@track@penalty\clubpenalty
+  \widowpenalty4000%
+  \sfcode`\.\@m
+  \sihao\songti % 正文格式 (Small 4 is 12pt, but Shape 48 says "按正文格式编排", body is Small 4)
+  % Wait, Shape 48 says "按正文格式". Main body text is 小四 (Small 4).
+  \xiaosi\songti
+}{
+  \def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}
+  \endlist
+}
+
+% Appendix
+\renewcommand{\appendix}{
+  \par
+  \setcounter{section}{0}
+  \renewcommand{\thesection}{附录 \Alph{section}}
+  \ctexset{
+    section={
+      format=\clearpage\centering\bfseries\heiti\sanhao,
+      name={,},
+      number=\thesection
+    }
+  }
+}
+
+% Achievement & Acknowledgment use section format
+\newcommand{\acknowledgment}{
+  \section*{致 \quad 谢}
+  \addcontentsline{toc}{section}{致 \quad 谢}
+  \if_str_eq:Vn \g__suep_degree_tl { doctor }
+    \addengcontents{section}{}{Acknowledgements}
+  \fi
+  \markboth{致 \quad 谢}{致 \quad 谢}
+}
+
+\newcommand{\achievements}{
+  \section*{攻读硕士/博士学位期间发表学术论文情况}
+  \addcontentsline{toc}{section}{攻读硕士/博士学位期间发表学术论文情况}
+  \if_str_eq:Vn \g__suep_degree_tl { doctor }
+    \addengcontents{section}{}{Academic Papers Published During the Period of Study}
+  \fi
+}
+
+\newcommand{\projects}{
+  \section*{攻读博士学位期间参加的科研工作}
+  \addcontentsline{toc}{section}{攻读博士学位期间参加的科研工作}
+  \if_str_eq:Vn \g__suep_degree_tl { doctor }
+    \addengcontents{section}{}{Scientific Research Projects Involved During Doctoral Study}
+  \fi
 }
 
 % End of suepthesis class
