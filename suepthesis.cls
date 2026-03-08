@@ -242,12 +242,12 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
-    \vspace{20mm}
+    \vspace{10mm}
 
     % 2. Logo (Left Aligned as per Word screenshot)
     \noindent\includegraphics[height=48.25pt]{./images/logo.png}\par
 
-    \vspace{15mm}
+    \vspace{10mm}
     % 3. Thesis Type (Chinese)
     {\centering\sffamily\bfseries\xiaochu \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
@@ -269,7 +269,7 @@
       }
     }
 
-    \vspace{25mm}
+    \vspace{15mm}
     % 6. Chinese Title
     {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
     
@@ -277,13 +277,13 @@
       {
         { doctor }
         {
-          \vspace{8mm} 
+          \vspace{5mm} 
           % 7. English Title (Doctor only)
           {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
-    \vspace{25mm} 
+    \vspace{15mm} 
     % 8. Personal info block.
     \begin{center}
       \sihao\sffamily\bfseries
@@ -324,7 +324,7 @@
       \xiaosi 学\quad 号 \ful[3.5cm]{}
     \end{minipage}\par
 
-    \vspace{40mm}
+    \vspace{30mm}
     % Title (上海电力大学 硕士学位论文)
     {\centering\bfseries\erhao 上海电力大学 \\ \tl_use:N \l__suep_thesis_type_cn_tl \par}
     
@@ -346,7 +346,7 @@
       }
     }
 
-    \vspace{25mm} 
+    \vspace{15mm} 
     % Chinese Title
     {\centering\sffamily\bfseries\erhao \tl_use:N \g__suep_c_title_tl \par}
     
@@ -354,13 +354,13 @@
       {
         { doctor }
         {
-          \vspace{8mm} 
+          \vspace{5mm} 
           % English Title
           {\centering\bfseries\erhao \tl_use:N \g__suep_e_title_tl \par}
         }
       }
     
-    \vspace{35mm} 
+    \vspace{25mm} 
     % Personal info block for inner page.
     \begin{center}
       \sihao\sffamily\bfseries
