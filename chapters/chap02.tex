@@ -1,0 +1,56 @@
+\section{公式、图表排版测试}
+本章我们将插入一些常见的数学公式、图和表，用以测试这些浮动体环境以及公式对齐是否符合标准。
+
+\subsection{公式环境}
+规范中要求“公式居中，序号顶右”。我们可以通过下方的方程测试此项规则：
+
+\begin{equation}
+  E = m c^2
+\end{equation}
+
+另一个多行的推导公式：
+\begin{eqnarray}
+  a &=& b + c \\
+  c &=& d + e
+\end{eqnarray}
+
+\subsection{公式说明环境测试}
+使用 \texttt{eqexpl} 环境来测试“式中：”的排版：
+
+\begin{equation}
+    PV = nRT
+\end{equation}
+
+\begin{eqexpl}
+    \item[P] 压力 (Pressure)
+    \item[V] 体积 (Volume)
+    \item[n] 物质的量 (Amount of substance)
+    \item[R] 理想气体常数 (Ideal gas constant)
+    \item[T] 绝对温度 (Absolute temperature)
+\end{eqexpl}
+
+\subsection{图表环境}
+对于硕士生来说，插图的图题只需使用中文，字号为“五号、宋体、居中排写”。我们将在这里插入一个虚拟图（图 \ref{fig:test}）用以检视图题的外观与文字。
+
+\begin{figure}[H]
+  \centering
+  \rule{6cm}{3cm} % A simple black box acting as an image
+  \bicaption{这是一个测试用途的虚拟插图}{This is a dummy illustration for testing purposes}
+  \label{fig:test}
+\end{figure}
+
+表题也要遵循同样的规则，不过表格一般推荐使用“三线表”格式。如下表 \ref{tab:test} 所示：
+
+\begin{table}[H]
+  \centering
+  \caption{这是一个测试使用的数据表格}
+  \label{tab:test}
+  \begin{tabular}{ccc}
+    \toprule
+    测试项目 & 期望字号 & 期望字体 \\
+    \midrule
+    图题/表题 & 五号 & 宋体 \\
+    正文内容 & 小四号 & 宋体/Times New Roman \\
+    \bottomrule
+  \end{tabular}
+\end{table}
