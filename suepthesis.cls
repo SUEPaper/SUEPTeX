@@ -402,15 +402,15 @@
   \vspace{10mm}
   \noindent
   \begin{minipage}[t]{0.5\textwidth}
-    \textbf{保密} \square，在 \ful[1.5cm]{} 年解密后适用本授权书。
+    \textbf{保密} $\square$，在 \ful[1.5cm]{} 年解密后适用本授权书。
   \end{minipage}
   \begin{minipage}[t]{0.45\textwidth}
     \hspace{2em} \textbf{本学位论文属于}
   \end{minipage}\par
   \vspace{5mm}
   \noindent
-  \begin{minipage}[t]{0.5\textwidth}
-    \textbf{不保密} \square。
+  \begin{minipage}[t]{1.0\textwidth}
+    \textbf{不保密} $\square$。
   \end{minipage}\par
   \vspace{5mm}
   \centerline{（请在以上方框内打“ $\checkmark$ ”）}\par
