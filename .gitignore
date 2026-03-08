@@ -1,5 +1,9 @@
 *
 !*.cls
 !*.tex
+!*.sh
+!*.bat
+!*.py
+!*.pdf
 !./images/*
 !.gitignore
