@@ -1,6 +1,8 @@
 *
 !*.cls
-!*.tex
+test_master_*.tex
+test_doctor_*.tex
+!test_format.tex
 !*.sh
 !*.bat
 !*.py
