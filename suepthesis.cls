@@ -246,11 +246,8 @@
 
     \vspace{10mm}
     % Logo
-    % Based on DOCX VML: width:161.9pt;height:48.25pt. 
-    % We use \makebox to shift it slightly left if needed, or just \centering.
-    \begin{center}
-      \includegraphics[height=48.25pt]{./images/logo.png}
-    \end{center}
+    % Based on DOCX visual reference, the logo is aligned to the left margin.
+    \noindent\includegraphics[height=48.25pt]{./images/logo.png}
 
     \vspace{20mm}
     % Thesis Type (硕（博）士学位论文) - 初号 / 小初 Black
